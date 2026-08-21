@@ -29,6 +29,7 @@
 | [docs/getting-started.md](docs/getting-started.md) | **워드프레스 처음 시작하기** — 설치부터 첫 페이지까지 따라하기 | 맨 처음 |
 | [docs/ia.md](docs/ia.md) | 사이트 구조 설계서 — 메뉴·페이지·제품 분류·페이지별 구성 | **워드프레스 만지기 전에 먼저** |
 | [docs/wordpress-setup.md](docs/wordpress-setup.md) | 테마·플러그인·보안·SEO 초기 세팅 순서 | 구축 시작할 때 |
+| [docs/acf-fields.md](docs/acf-fields.md) | 제품·색상·시공사례·기술자료 입력 칸 설정 (필드 이름 정확히) | 구조 만든 다음 |
 | [docs/content-plan.md](docs/content-plan.md) | 확보해야 할 자료 목록 (사진·PDF·회사정보) | 자료 수집할 때 |
 | [docs/operations.md](docs/operations.md) | 백업 주기·업데이트 규칙·장애 대응 | 오픈 후 상시 |
 
@@ -61,7 +62,7 @@
 2. [ ] `docs/content-plan.md` 의 자료 수집
 3. [ ] LocalWP에 워드프레스 설치 → `docs/getting-started.md` 따라하기
 4. [ ] `mu-plugins/` 복사 → 고유주소 저장 → 제품/시공사례 메뉴 확인
-5. [ ] ACF 필드 생성 (자동으로 `theme/caparol-child/acf-json/` 에 저장됨)
+5. [ ] ACF 필드 생성 → `docs/acf-fields.md` 대로 (자동으로 `acf-json/` 에 저장됨)
 6. [ ] 자식 테마 디자인 작업 → `theme/caparol-child/` 에 커밋
 7. [ ] 실서버 이전 · 도메인 연결 · SSL
 8. [ ] 네이버 서치어드바이저 · 구글 서치콘솔 등록

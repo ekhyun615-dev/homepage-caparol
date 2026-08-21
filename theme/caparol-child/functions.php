@@ -138,3 +138,43 @@ add_action( 'pre_get_posts', function ( $query ) {
 		$query->set( 'post_type', array( 'post', 'page', 'product', 'reference' ) );
 	}
 } );
+
+/* ──────────────────────────────────────────────
+   기술자료 목록에 유효기간 표시
+
+   시험성적서는 유효기간이 있습니다. 만료된 성적서가 사이트에 걸려 있으면
+   설계사에게 신뢰를 잃습니다. 관리자 목록에서 바로 보이게 합니다.
+   ────────────────────────────────────────────── */
+
+add_filter( 'manage_document_posts_columns', function ( $columns ) {
+	$columns['valid_until'] = '유효기간';
+	return $columns;
+} );
+
+add_action( 'manage_document_posts_custom_column', function ( $column, $post_id ) {
+	if ( 'valid_until' !== $column ) {
+		return;
+	}
+	if ( ! function_exists( 'get_field' ) ) {
+		return;
+	}
+
+	$raw = get_field( 'valid_until', $post_id, false ); // Ymd 원본으로 받기
+	if ( ! $raw ) {
+		echo '<span style="color:#999">—</span>';
+		return;
+	}
+
+	$expires = strtotime( $raw );
+	$today   = current_time( 'timestamp' );
+	$days    = floor( ( $expires - $today ) / DAY_IN_SECONDS );
+	$date    = date_i18n( 'Y-m-d', $expires );
+
+	if ( $days < 0 ) {
+		printf( '<strong style="color:#d63638">%s · 만료됨</strong>', esc_html( $date ) );
+	} elseif ( $days <= 60 ) {
+		printf( '<strong style="color:#b26200">%s · %d일 남음</strong>', esc_html( $date ), (int) $days );
+	} else {
+		printf( '<span>%s</span>', esc_html( $date ) );
+	}
+}, 10, 2 );
