@@ -18,7 +18,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style(
 		'caparol-child',
 		get_stylesheet_directory_uri() . '/style.css',
-		array( 'generate-style' ),                       // 부모 테마 뒤에 로드
+		array( 'astra-theme-css' ),                      // Astra 스타일 뒤에 로드
 		wp_get_theme()->get( 'Version' )
 	);
 }, 20 );
@@ -89,6 +89,30 @@ function caparol_specs_table( $post_id = null ) {
 	}
 	echo '</tbody></table></div>';
 }
+
+/* ──────────────────────────────────────────────
+   Astra 조정
+
+   Elementor로 만든 템플릿이 적용되는 곳에서는 Astra가 그리는
+   기본 제목·여백이 중복으로 나옵니다. 커스터마이저에서 끌 수도 있지만,
+   설정이 DB에만 남으므로 코드로 고정합니다.
+   ────────────────────────────────────────────── */
+
+/* 제품·시공사례·색상·기술자료는 Elementor 템플릿이 제목을 그립니다 */
+add_filter( 'astra_the_title_enabled', function ( $enabled ) {
+	if ( is_singular( array( 'product', 'reference', 'color', 'document' ) ) ) {
+		return false;
+	}
+	return $enabled;
+} );
+
+/* Elementor가 콘텐츠 폭을 직접 제어하도록 — 좌우 여백 중복 방지 */
+add_filter( 'astra_page_layout', function ( $layout ) {
+	if ( is_singular( array( 'product', 'reference', 'color', 'document' ) ) ) {
+		return 'no-sidebar';
+	}
+	return $layout;
+} );
 
 /* ──────────────────────────────────────────────
    관리 편의

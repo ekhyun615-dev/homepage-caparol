@@ -26,6 +26,7 @@
 
 | 문서 | 내용 | 언제 보나 |
 |---|---|---|
+| [docs/getting-started.md](docs/getting-started.md) | **워드프레스 처음 시작하기** — 설치부터 첫 페이지까지 따라하기 | 맨 처음 |
 | [docs/ia.md](docs/ia.md) | 사이트 구조 설계서 — 메뉴·페이지·제품 분류·페이지별 구성 | **워드프레스 만지기 전에 먼저** |
 | [docs/wordpress-setup.md](docs/wordpress-setup.md) | 테마·플러그인·보안·SEO 초기 세팅 순서 | 구축 시작할 때 |
 | [docs/content-plan.md](docs/content-plan.md) | 확보해야 할 자료 목록 (사진·PDF·회사정보) | 자료 수집할 때 |
@@ -46,7 +47,8 @@
 |---|---|---|
 | 플랫폼 | **WordPress** | 직원이 직접·자주 콘텐츠를 수정하고, 게시판/자료실이 필요함 |
 | 호스팅 | PHP 8.x + MySQL 지원 요금제 (카페24 등) | 정적 요금제로는 불가 |
-| 테마 | 가벼운 베이스 테마 + **자식 테마** | 올인원 유료 테마는 무겁고 나중에 못 바꿈 |
+| 테마 | **Astra** + 자식 테마 `caparol-child` | 가볍고 Elementor와 궁합이 좋음 |
+| 페이지 빌더 | **Elementor Pro** | 제품 템플릿(CPT)과 메가메뉴에 Pro가 필요 |
 | 개발 환경 | [LocalWP](https://localwp.com) (로컬 워드프레스) | 실서버 건드리지 않고 실험 |
 
 > 자매 사이트 [homepage-creaton](https://github.com/ekhyun615-dev/homepage-creaton),
@@ -57,7 +59,7 @@
 
 1. [ ] `docs/ia.md` 검토 — 제품 분류가 실제 취급 품목과 맞는지 확정
 2. [ ] `docs/content-plan.md` 의 자료 수집
-3. [ ] LocalWP에 워드프레스 설치 → `docs/wordpress-setup.md` 순서대로 세팅
+3. [ ] LocalWP에 워드프레스 설치 → `docs/getting-started.md` 따라하기
 4. [ ] `mu-plugins/` 복사 → 고유주소 저장 → 제품/시공사례 메뉴 확인
 5. [ ] ACF 필드 생성 (자동으로 `theme/caparol-child/acf-json/` 에 저장됨)
 6. [ ] 자식 테마 디자인 작업 → `theme/caparol-child/` 에 커밋
