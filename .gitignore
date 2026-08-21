@@ -1,0 +1,42 @@
+# ── 워드프레스 본체 (버전관리 대상 아님) ─────────────
+wp-admin/
+wp-includes/
+/index.php
+/wp-*.php
+/xmlrpc.php
+/license.txt
+/readme.html
+
+# ── 콘텐츠: 백업 플러그인이 담당 ────────────────────
+wp-content/uploads/
+wp-content/cache/
+wp-content/upgrade/
+wp-content/backup*/
+wp-content/updraft/
+
+# ── 남의 코드 ──────────────────────────────────────
+wp-content/plugins/
+wp-content/themes/*
+!wp-content/themes/caparol-child/
+
+# ── 비밀정보: 절대 커밋 금지 ────────────────────────
+wp-config.php
+.env
+*.pem
+*.key
+credentials*
+*비밀번호*
+*접속정보*
+
+# ── DB 덤프 / 압축본 ────────────────────────────────
+*.sql
+*.sql.gz
+*.zip
+*.tar.gz
+
+# ── 로컬 환경 ──────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+node_modules/
