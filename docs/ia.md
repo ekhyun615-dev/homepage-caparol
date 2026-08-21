@@ -54,14 +54,18 @@
 /                          홈
 /about                     브랜드 소개
 /products                  제품
-   /products/etics           └ 외단열시스템 (Capatect)
-   /products/exterior        └ 외부 도료
-   /products/interior        └ 내부 도료
-   /products/render          └ 미장 · 스타코
-   /products/decor           └ 장식 마감 (Capadecor)
+   /products/primer          └ 프라이머 (프라이머 · 외벽발수제)
+   /products/paint           └ 페인트 (인테리어 · E.L.F.Plus · 외장)
+   /products/plaster         └ 플라스터 / 퍼티
+   /products/capaver         └ 유리직물벽지 (Capaver)
+   /products/decor           └ 장식 인테리어 (Capadecor)
+   /products/eifs            └ 외단열시스템 (EIFS)
+   /products/meldorfer       └ Meldorfer 벽돌마감
    /products/[제품명]         └ 제품 상세
 /colors                    컬러 시스템          ★ 도료 브랜드의 핵심
 /references                시공 사례
+   /references/region/korea  └ 국내사례
+   /references/region/global └ 해외사례
    /references/[현장명]       └ 사례 상세
 /downloads                 기술자료 (카탈로그 · TDS · 시공지침 · 시험성적서)
 /partners                  대리점 안내 · 취급점 찾기      ← 직접 수입·판매이므로 필요
@@ -71,41 +75,97 @@
 /privacy                   개인정보처리방침
 ```
 
-### 상단 메뉴 (GNB) — 5개로 제한
+### 상단 메뉴 (GNB) — 6개로 제한
 
 ```
-브랜드   제품 ▾   컬러   시공사례   기술자료   대리점          [문의하기]  ☎ 1588-XXXX
+브랜드   제품 ▾   컬러   시공사례 ▾   기술자료   대리점       [문의하기]  ☎ 1588-XXXX
 ```
 
-- 공지사항·게시판은 GNB가 아니라 **푸터 + 홈 하단**에 배치 (방문자 우선순위가 낮음)
-- `대리점`은 6번째지만 넣을 만합니다 — 유통망 확대가 목표 3순위이고, 찾는 사람은 목적이 뚜렷합니다
+기존 기획안은 **최상위 메뉴가 9개**였습니다(DAW/Caparol · 프라이머 · 페인트 · 플라스터/퍼티 ·
+유리직물벽지 · 장식인테리어 · 외단열시스템 · Meldorfer · 시공사례).
+이건 데스크톱에서도 줄이 넘치고 모바일에서는 스크롤이 깁니다.
+
+**제품 7종을 `제품 ▾` 하나로 묶는 것을 권합니다.** 내용은 하나도 안 버립니다.
+
+```
+제품 ▾
+ ├ 프라이머
+ ├ 페인트
+ ├ 플라스터 / 퍼티
+ ├ 유리직물벽지 (Capaver)
+ ├ 장식 인테리어 (Capadecor)
+ ├ 외단열시스템 (EIFS)
+ └ Meldorfer 벽돌마감
+```
+
+- 최상위 6개 = 한 줄에 들어가고, 모바일에서도 한눈에 잡힙니다
+- 방문자는 "프라이머"를 찾는 게 아니라 **"내 현장에 뭘 쓰지"** 를 찾습니다. 제품군은 그 다음 층입니다
+- 공지사항·게시판은 GNB가 아니라 **푸터 + 홈 하단**에 배치
+- `대리점`은 유통망 확대가 목표 3순위이므로 최상위에 유지
 - 우측 상단 **문의하기 버튼은 항상 노출** (색상 대비 강하게)
 - 모바일: 하단 고정 바 = `☎ 전화` / `💬 카카오톡` / `📝 상담신청` (creaton.kr의 FloatingCTA와 동일 패턴)
 
 ---
 
-## 3. 제품 분류 (확정 필요)
+## 3. 제품 분류 (확정됨)
 
-Caparol 본사 제품군을 기준으로 한 초안입니다.
-**한국에서 실제 취급하는 품목만 남기고 나머지는 삭제하세요.** 취급 안 하는 제품을 올리면 문의만 받고 팔지 못합니다.
+기존 기획안의 메뉴바를 기준으로 확정했습니다. **7개 카테고리 + 시공사례.**
 
-| 카테고리 | 대표 제품 | 한국 취급 여부 |
-|---|---|---|
-| **외단열시스템 (ETICS)** | Capatect 시스템 (EPS / 미네랄울), 준불연 시스템 | ☐ 확인 |
-| **외부 도료** | Amphibolin, Muresko (SilaCryl), AmphiSilan, ThermoSan | ☐ 확인 |
-| **내부 도료** | Indeko-plus, PremiumClean, Malerit | ☐ 확인 |
-| **미장 · 스타코** | Capatect K/R 마감재, Capatect Muresko Fassadenputz, ArmaReno | ☐ 확인 |
-| **장식 마감** | Capadecor Metallocryl, DecoLasur, Effekt 시리즈 | ☐ 확인 |
-| **벽돌 마감재** | Meldorfer (얇은 벽돌 마감) | ☐ 확인 |
-| **목재 · 금속 도료** | Capalac | ☐ 확인 |
-| **바닥 · 콘크리트 보수** | Disbon / Disbocret | ☐ 확인 |
+| # | 카테고리 | 슬러그 | 하위 내용 | 브랜드 |
+|---|---|---|---|---|
+| 1 | 프라이머 | `primer` | 프라이머, 외벽 발수제 | — |
+| 2 | 페인트 | `paint` | 인테리어 페인트, E.L.F. Plus, 외장 페인트 | — |
+| 3 | 플라스터 / 퍼티 | `plaster` | 외장 플라스터, 내장 플라스터, 퍼티 | — |
+| 4 | 유리직물벽지 | `capaver` | 종류·규격, 특성, 용도, Capaver System, 보완제품 | **Capaver** |
+| 5 | 장식 인테리어 | `decor` | 종류, Capadecor, 퍼티 마감 | **Capadecor** |
+| 6 | 외단열시스템 | `eifs` | 시스템 종류, 단열재, 보강메쉬, 플라스터, 주요제품 | **EIFS** |
+| 7 | Meldorfer 벽돌마감 | `meldorfer` | 제조공장, 종류·규격, 용도, 특성, 시스템, Original Meldorfer, Nature Element, 보완제품 | **Meldorfer** |
 
-> 출처: [caparol.de 제품군](https://www.caparol.de/en/product-range/overview),
-> [Muresko](https://www.caparol.co.uk/products/technical-information/exterior-masonry-paint/muresko),
-> [Amphibolin](https://www.caparol.de/en/product-range/paints/exterior-paints/dispersion-paint/amphibolin),
-> [카파롤 외단열시스템 (한국)](https://baroco.co.kr/50)
+### 앞선 초안에서 걷어낸 것
 
----
+취급하지 않는 것으로 확인되어 제외합니다.
+
+- ~~목재·금속 도료 (Capalac)~~
+- ~~바닥·콘크리트 보수 (Disbon / Disbocret)~~
+- ~~내부 도료 / 외부 도료 분리~~ → **페인트** 하나로 통합 (하위에서 인테리어/외장 구분)
+
+### 브랜드 소개 `/about` 에 들어갈 내용
+
+기존 메뉴의 `DAW/Caparol`(회사 소개, 제조공장)은 별도 최상위 메뉴가 아니라
+`/about` 안으로 넣습니다.
+
+- DAW SE 그룹과 Caparol의 관계
+- 창립 1895, 유럽 시장 지위
+- **제조공장** — 독일 생산시설 사진·설명 (기존 메뉴에 있던 항목)
+- **한국 공식 수입원**으로서의 Caparol Korea
+
+> Meldorfer 메뉴에도 "제조공장" 항목이 따로 있었습니다.
+> 제품군별 생산시설 이야기는 해당 제품 페이지 안에 두고, 회사 차원의 이야기만 `/about`에 두세요.
+
+### ⚠️ 표기 오류 하나
+
+기존 메뉴의 **`Original Neldorfer`** 는 오타로 보입니다.
+같은 메뉴의 하위 항목에는 `Original Meldorfer`로 적혀 있고, 정식 브랜드명은 **Meldorfer** 입니다.
+사이트 전체에서 `Meldorfer`로 통일하세요.
+
+### 시공사례 구분
+
+기존 메뉴대로 **국내사례 / 해외사례**로 나눕니다.
+`reference_region` 분류를 계층형으로 만들어 두었으므로 이렇게 씁니다.
+
+```
+국내
+ ├ 서울 · 경기
+ ├ 충청
+ └ …
+해외
+ ├ 독일
+ └ …
+```
+
+> 해외사례는 본사 자료를 쓰게 되는데, **이미지 사용 권한을 먼저 확인**하세요.
+> 그리고 해외사례만 많고 국내사례가 적으면 "한국에서는 실적이 없나" 로 읽힙니다.
+> 국내사례를 먼저 채우고 해외를 보조로 두세요.
 
 ## 4. 페이지별 구성
 
@@ -116,7 +176,7 @@ Caparol 본사 제품군을 기준으로 한 초안입니다.
 | 1 | 히어로 | 실제 시공 전경 사진 슬라이드 3~5장 + 한 줄 카피 + `제품 보기` / `문의하기` |
 | 2 | 브랜드 신뢰 | 숫자 4개 — 창립 1895 · 유럽 OO개국 · 국내 시공 OO건 · 준불연 인증 |
 | 2-b | 공식 수입원 표기 | "독일 Caparol 한국 공식 수입원" 한 줄 + 본사 로고 |
-| 3 | 제품 카테고리 | 카드 5개 (§3에서 확정한 취급 품목) |
+| 3 | 제품 카테고리 | 카드 7개 (§3 확정 라인업) |
 | 4 | 컬러 시스템 | 색상 팔레트 미리보기 + `전체 색상 보기` |
 | 5 | 시공사례 | 최신 6건 그리드 |
 | 6 | 기술자료 | 자주 찾는 PDF 4개 바로가기 (준불연 성적서를 맨 앞에) |
@@ -236,7 +296,8 @@ Caparol 본사 제품군을 기준으로 한 초안입니다.
 
 ## 7. 열어두는 결정 사항
 
-- [ ] 제품 분류 확정 (§3 체크박스)
+- [x] ~~제품 분류 확정~~ — §3에서 완료
+
 - [ ] 컬러 시스템에 몇 개 색상을 올릴 것인가 (전체 vs 대표 색상만)
 - [ ] 자료실을 **로그인 회원 전용**으로 할 것인가 (설계사 자료 요청 리드 확보용)
 - [ ] 문의 게시판을 공개로 둘 것인가 (비공개 문의 접수만 받을 것인가)

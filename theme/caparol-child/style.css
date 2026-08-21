@@ -10,11 +10,18 @@ Text Domain:  caparol
 
 /* ──────────────────────────────────────────────
    브랜드 토큰
-   실제 CI 값을 받으면 여기만 고치면 사이트 전체에 반영됩니다.
-   ⚠️ 아래는 임시값입니다. 본사 CI 확인 후 교체하세요.
+   색상을 바꿀 일이 생기면 여기만 고치면 사이트 전체에 반영됩니다.
+
+   ⚠️ 초록이 두 개인 이유 (지우지 마세요)
+   브랜드 그린 #96c11c 는 밝아서 흰 글씨와의 명도 대비가 2.1:1 밖에 안 됩니다.
+   (웹 접근성 기준은 본문 4.5:1) → 초록 배경 위에는 반드시 어두운 글씨를 씁니다.
+   흰 배경 위에 쓰는 초록 글씨·링크는 어두운 변형 #5f7c0b 를 씁니다 (4.8:1, 기준 통과).
    ────────────────────────────────────────────── */
 :root {
-  --caparol-blue:   #004f9f;   /* TODO: 본사 CI 확인 */
+  --caparol-green:      #96c11c;   /* 브랜드 그린 — 배경·강조면. 위에 어두운 글씨 */
+  --caparol-green-dark: #5f7c0b;   /* 흰 배경 위 글씨·링크용 */
+  --caparol-green-tint: #f4f8e6;   /* 아주 옅은 배경면 */
+
   --caparol-ink:    #1a1a1a;
   --caparol-gray:   #6b7280;
   --caparol-line:   #e5e7eb;
@@ -35,19 +42,28 @@ body {
 
 h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.3; }
 
+/* 섹션 제목 아래 브랜드 그린 밑줄 */
+.caparol-heading {
+  padding-bottom: .5rem;
+  border-bottom: 3px solid var(--caparol-green);
+}
+
 /* ── 문의 버튼 ──────────────────────────────── */
 .caparol-cta {
   display: inline-flex;
   align-items: center;
   gap: .5rem;
   padding: .75rem 1.5rem;
-  background: var(--caparol-blue);
-  color: #fff;
+  background: var(--caparol-green);
+  color: var(--caparol-ink);        /* 흰 글씨는 대비 부족 — 위 주석 참고 */
   border-radius: var(--caparol-radius);
-  font-weight: 600;
+  font-weight: 700;
   text-decoration: none;
 }
-.caparol-cta:hover { opacity: .9; color: #fff; }
+.caparol-cta:hover { background: var(--caparol-green-dark); color: #fff; }
+
+/* 본문 링크 */
+a { color: var(--caparol-green-dark); }
 
 /* ──────────────────────────────────────────────
    모바일 하단 고정 바 (전화 · 카카오 · 상담신청)
@@ -70,7 +86,10 @@ h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.3; }
   color: var(--caparol-ink);
   text-decoration: none;
 }
-.caparol-floating a.is-primary { background: var(--caparol-blue); color: #fff; }
+.caparol-floating a.is-primary {
+  background: var(--caparol-green);
+  color: var(--caparol-ink);
+}
 
 @media (max-width: 768px) {
   .caparol-floating { display: flex; }
