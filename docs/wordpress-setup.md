@@ -76,9 +76,10 @@ Pro의 **테마 빌더(Theme Builder)** 로 `제품 상세` 템플릿을 한 번
 | 페이지 빌더 | **Elementor** + **Elementor Pro** | ✓ |
 | 제품 스펙 필드 | **ACF (Advanced Custom Fields)** | ✓ |
 | SEO | **Rank Math SEO** | ✓ |
-| 보안 | **Wordfence Security** | ✓ |
+| 보안 (방화벽) | **NinjaFirewall (WP Edition)** | ✓ |
+| 2단계 인증 | **Two Factor** | ✓ |
 | 백업 | **UpdraftPlus** | ✓ |
-| 캐시/속도 | **LiteSpeed Cache** (서버가 LiteSpeed면) 또는 **W3 Total Cache** | ✓ |
+| 캐시/속도 | **WP Super Cache** 또는 LiteSpeed Cache(서버가 LiteSpeed면) | ✓ |
 | 이미지 WebP 변환 | **Converter for Media** | ✓ |
 | 문의 폼 | **Contact Form 7** + Flamingo(접수 보관) | ✓ |
 | 한국형 게시판 | **KBoard** | 필요 시 |
@@ -90,6 +91,34 @@ Pro의 **테마 빌더(Theme Builder)** 로 `제품 상세` 템플릿을 한 번
 > 자세한 이유는 [mu-plugins/README.md](../mu-plugins/README.md) 참고.
 
 **설치하지 말 것**: 방문자 카운터, 슬라이더 전용 플러그인(테마 기능으로 충분), 올인원 마케팅 번들, 출처 불명 한글 플러그인
+
+### ⚠️ 보안 플러그인은 겹치면 오히려 위험합니다
+
+"보안은 많을수록 좋다"가 통하지 않는 영역입니다. 기능이 겹치는 보안 플러그인을
+여러 개 켜면 아래 문제가 생깁니다.
+
+1. **서로 충돌해 관리자가 로그인에서 잠깁니다.** 특히 2단계 인증 플러그인이 둘이면
+   실제로 자주 일어나는 사고입니다. FTP로 플러그인 폴더 이름을 바꿔야 겨우 들어갑니다
+2. **어느 플러그인이 무엇을 막았는지 진단이 안 됩니다.** 문의 폼이 안 되거나
+   특정 사용자가 못 들어올 때 원인을 못 찾습니다
+3. **플러그인 자체가 공격면입니다.** 보안 플러그인에서도 취약점이 나옵니다.
+   개수가 늘수록 위험도 늘어납니다
+4. 매 요청마다 검사가 중복 실행되어 **사이트가 느려집니다**
+
+기능별로 **하나씩만** 두세요.
+
+| 기능 | 하나만 |
+|---|---|
+| 웹 방화벽 · 로그인 시도 제한 · 악성코드 스캔 | NinjaFirewall |
+| 2단계 인증 | Two Factor |
+| XML-RPC 차단 | `mu-plugins/caparol-core/inc/security.php` (코드로 처리 완료) |
+
+> Login Lockdown(로그인 시도 제한), Really Simple Security(2FA·로그인보호),
+> Disable XML-RPC-API 같은 것은 위 셋과 기능이 겹칩니다. **삭제하세요.**
+> 비활성화만으로는 부족합니다 — 파일이 서버에 남아 취약점 공격 경로가 됩니다.
+
+> **정리하기 전에**: 2단계 인증을 이미 설정했다면 **백업 코드를 먼저 저장**하세요.
+> 인증 플러그인을 잘못 건드리면 본인이 못 들어갑니다.
 
 ---
 
@@ -190,7 +219,8 @@ Pro의 **테마 빌더(Theme Builder)** 로 `제품 상세` 템플릿을 한 번
 - [ ] 관리자 아이디를 **`admin` 이외**로 (이미 admin이면 새 관리자 생성 후 삭제)
 - [ ] 관리자 비밀번호 16자 이상
 - [ ] **WPS Hide Login**으로 `/wp-login.php` 주소 변경
-- [ ] Wordfence: 방화벽 활성화 + 로그인 시도 제한 + 2단계 인증
+- [ ] NinjaFirewall: 방화벽 활성화 + 로그인 시도 제한
+- [ ] Two Factor: 관리자 계정에 2단계 인증 설정 (**백업 코드 보관 필수**)
 - [ ] `wp-config.php`에 파일 편집기 비활성화 추가:
       ```php
       define('DISALLOW_FILE_EDIT', true);
