@@ -18,11 +18,17 @@ Text Domain:  caparol
    흰 배경 위에 쓰는 초록 글씨·링크는 어두운 변형 #5f7c0b 를 씁니다 (4.8:1, 기준 통과).
    ────────────────────────────────────────────── */
 :root {
-  --caparol-green:      #96c11c;   /* 브랜드 그린 — 배경·강조면. 위에 어두운 글씨 */
+  /* 주색 — 로고가 검정이므로 사이트의 기본도 검정입니다 */
+  --caparol-ink:    #1a1a1a;
+
+  /* 강조색 — 버튼·링크·구분선. 넓은 면적에 쓰지 않습니다 */
+  --caparol-green:      #96c11c;   /* 배경·강조면. 위에 어두운 글씨 */
   --caparol-green-dark: #5f7c0b;   /* 흰 배경 위 글씨·링크용 */
   --caparol-green-tint: #f4f8e6;   /* 아주 옅은 배경면 */
 
-  --caparol-ink:    #1a1a1a;
+  /* ⚠️ 로고의 나머지 색(마젠타·시안·옐로·오렌지·레드)은 UI에 쓰지 않습니다.
+     로고 전용입니다. 자세한 이유는 brand/README.md 참고 */
+
   --caparol-gray:   #6b7280;
   --caparol-line:   #e5e7eb;
   --caparol-bg:     #ffffff;
@@ -114,6 +120,27 @@ a { color: var(--caparol-green-dark); }
 
 /* 좁은 화면에서 표가 잘리지 않도록 가로 스크롤 */
 .caparol-specs-wrap { overflow-x: auto; }
+
+/* ──────────────────────────────────────────────
+   푸터 — 검정 배경
+
+   ⚠️ 여기에는 흰색(반전) 로고가 필요합니다.
+   원본 로고는 코끼리가 검정이라 보이지 않습니다. (brand/README.md 참고)
+   ────────────────────────────────────────────── */
+.caparol-footer {
+  background: var(--caparol-ink);
+  color: #d1d5db;
+}
+.caparol-footer a { color: #fff; }
+.caparol-footer a:hover { color: var(--caparol-green); }
+
+/* 푸터 위 얇은 브랜드 그린 띠 — 로고의 색 띠를 연상시키는 최소한의 장치 */
+.caparol-footer::before {
+  content: "";
+  display: block;
+  height: 4px;
+  background: var(--caparol-green);
+}
 
 /* ── 색상 칩 그리드 ─────────────────────────── */
 .caparol-colors {
