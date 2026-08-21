@@ -70,6 +70,12 @@ LocalWP를 켜고 왼쪽 아래 **`+`** (Create a new site) 클릭.
 
 ## 3단계 · 테마 깔기 (15분)
 
+> ⚠️ **Astra의 "몇 분 안에 완성되는 웹사이트 - 지금 구축 시작" 배너를 누르지 마세요.**
+> 스타터 템플릿(Starter Templates)을 설치·임포트하는 버튼입니다.
+> 남의 업종 더미 콘텐츠(가짜 페이지·이미지·메뉴)가 통째로 들어와서
+> 우리가 설계한 구조와 섞이고, 지우는 데 오히려 시간이 더 걸립니다.
+> 배너는 오른쪽 위 **×** 로 닫으세요.
+
 ### 3-1. Astra 설치
 
 **모양 → 테마 → 새로 추가** → 검색창에 `Astra` → **설치** → **활성화**
@@ -115,6 +121,29 @@ wp-content/mu-plugins/
    ├─ caparol-core.php
    └─ inc/
 ```
+
+### 서버(카페24 등)에서 작업하는 경우
+
+LocalWP가 아니라 서버에 직접 설치했다면 **FTP 또는 카페24 파일매니저**로 올립니다.
+
+1. 카페24 호스팅 관리 → **파일매니저** (또는 FileZilla로 FTP 접속)
+2. 웹 루트(보통 `/www`) → `wp-content` 로 이동
+3. `mu-plugins` 폴더가 없으면 **직접 생성**
+4. 그 안에 `caparol-core-loader.php` 와 `caparol-core` 폴더를 업로드
+
+```
+/www/wp-content/mu-plugins/
+├─ caparol-core-loader.php
+└─ caparol-core/
+   ├─ caparol-core.php
+   └─ inc/
+      ├─ post-types.php
+      ├─ taxonomies.php
+      └─ security.php
+```
+
+> ⚠️ **폴더 구조를 그대로 유지**하세요. `inc` 안의 파일들을 밖으로 꺼내면 동작하지 않습니다.
+> 파일매니저에서 zip을 올려 압축 해제하는 방법이 실수가 적습니다.
 
 ### 확인
 
