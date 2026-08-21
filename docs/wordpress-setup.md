@@ -30,6 +30,7 @@
 - [ ] 베이스 테마 설치: **GeneratePress** 또는 **Kadence** (둘 다 무료판으로 충분)
 - [ ] **자식 테마(child theme) 생성** ← 필수. 부모 테마를 직접 수정하면 업데이트 때 전부 날아갑니다
 - [ ] 자식 테마 폴더명: `caparol-child` → 이 저장소 `theme/caparol-child/` 와 동기화
+      (이 저장소에 `style.css`·`functions.php` 기본형이 이미 들어있습니다)
 - [ ] 기본 테마(Twenty*) 하나만 남기고 나머지 삭제 (안 쓰는 테마 = 보안 구멍)
 
 ### 페이지 빌더는 하나만
@@ -48,7 +49,6 @@
 
 | 용도 | 플러그인 | 필수 |
 |---|---|---|
-| 커스텀 포스트 타입 | **CPT UI** | ✓ |
 | 제품 스펙 필드 | **ACF (Advanced Custom Fields)** | ✓ |
 | SEO | **Rank Math SEO** | ✓ |
 | 보안 | **Wordfence Security** | ✓ |
@@ -59,6 +59,10 @@
 | 한국형 게시판 | **KBoard** | 필요 시 |
 | 로그인 주소 변경 | **WPS Hide Login** | ✓ |
 
+> 커스텀 포스트 타입은 플러그인(CPT UI) 대신 **`mu-plugins/caparol-core`** 코드로 등록합니다.
+> 플러그인이 실수로 꺼지면 제품이 전부 사라져 보이고, 설정이 DB에만 남아 버전관리가 안 되기 때문입니다.
+> 자세한 이유는 [mu-plugins/README.md](../mu-plugins/README.md) 참고.
+
 **설치하지 말 것**: 방문자 카운터, 슬라이더 전용 플러그인(테마 기능으로 충분), 올인원 마케팅 번들, 출처 불명 한글 플러그인
 
 ---
@@ -67,10 +71,13 @@
 
 `docs/ia.md` § 5의 매핑표대로 만듭니다.
 
-- [ ] CPT UI로 `product` 생성 (슬러그 `products`, 아카이브 사용 ✓)
-- [ ] CPT UI로 택소노미 `product_cat` 생성 → `product`에 연결
-- [ ] CPT UI로 `reference`, `color`, `document` 생성
+- [ ] 이 저장소의 `mu-plugins/` 내용을 서버 `wp-content/mu-plugins/` 에 복사
+      (폴더가 없으면 새로 만드세요)
+- [ ] **설정 → 고유주소**에 들어가 저장 한 번 ⚠️ 안 하면 제품 페이지가 404
+- [ ] 관리자 메뉴에 **제품 / 시공사례 / 색상 / 기술자료**가 생겼는지 확인
+- [ ] 이 저장소의 `theme/caparol-child/` 를 서버 `wp-content/themes/caparol-child/` 에 복사 후 테마 활성화
 - [ ] ACF 필드 그룹 `제품 상세` 생성 → `product`에 연결
+      (필드는 `theme/caparol-child/acf-json/` 에 자동 저장되어 Git에 남습니다)
       - 한 줄 요약 (text)
       - 용도·적용부위 (textarea)
       - 주요 특징 (repeater: 아이콘 + 텍스트)
@@ -78,7 +85,7 @@
       - 색상 (relationship → `color`)
       - 관련 자료 (relationship → `document`)
       - 갤러리 (gallery)
-- [ ] 제품 카테고리 5개 등록 (ia.md §3에서 확정한 것)
+- [ ] 제품 카테고리 5개 등록 (ia.md §3에서 확정한 것) — 관리자 화면에서 추가
 - [ ] 메뉴 등록: GNB 5개 + 푸터 메뉴
 
 ---
@@ -93,7 +100,8 @@
       ```php
       define('DISALLOW_FILE_EDIT', true);
       ```
-- [ ] XML-RPC 비활성화 (Wordfence 옵션 또는 `.htaccess`)
+- [x] ~~XML-RPC 비활성화~~ — `mu-plugins/caparol-core/inc/security.php` 에서 이미 처리됨
+- [x] ~~워드프레스 버전 노출 제거, 작성자 아카이브 차단~~ — 동일 파일에서 처리됨
 - [ ] 워드프레스 **마이너 버전 자동 업데이트** 활성화
 - [ ] SSL 인증서 적용 → HTTP를 HTTPS로 301 전환
 - [ ] 직원 계정은 **관리자(Administrator)가 아니라 편집자(Editor)** 권한으로 발급

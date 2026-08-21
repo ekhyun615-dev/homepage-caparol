@@ -1,0 +1,110 @@
+/*
+Theme Name:   Caparol Korea
+Theme URI:    https://caparol.kr
+Description:  caparol.kr 자식 테마. 부모 테마(GeneratePress) 업데이트에 영향받지 않도록 모든 커스터마이징은 여기에 작성합니다.
+Author:       Caparol Korea
+Template:     generatepress
+Version:      0.1.0
+Text Domain:  caparol
+*/
+
+/* ──────────────────────────────────────────────
+   브랜드 토큰
+   실제 CI 값을 받으면 여기만 고치면 사이트 전체에 반영됩니다.
+   ⚠️ 아래는 임시값입니다. 본사 CI 확인 후 교체하세요.
+   ────────────────────────────────────────────── */
+:root {
+  --caparol-blue:   #004f9f;   /* TODO: 본사 CI 확인 */
+  --caparol-ink:    #1a1a1a;
+  --caparol-gray:   #6b7280;
+  --caparol-line:   #e5e7eb;
+  --caparol-bg:     #ffffff;
+  --caparol-bg-alt: #f6f7f8;
+
+  --caparol-radius: 4px;
+  --caparol-max:    1200px;
+}
+
+/* ── 타이포 ─────────────────────────────────── */
+body {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont,
+               'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  color: var(--caparol-ink);
+  word-break: keep-all;   /* 한글 줄바꿈이 단어 중간에서 끊기지 않도록 */
+}
+
+h1, h2, h3 { letter-spacing: -0.02em; line-height: 1.3; }
+
+/* ── 문의 버튼 ──────────────────────────────── */
+.caparol-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .75rem 1.5rem;
+  background: var(--caparol-blue);
+  color: #fff;
+  border-radius: var(--caparol-radius);
+  font-weight: 600;
+  text-decoration: none;
+}
+.caparol-cta:hover { opacity: .9; color: #fff; }
+
+/* ──────────────────────────────────────────────
+   모바일 하단 고정 바 (전화 · 카카오 · 상담신청)
+   creaton.kr의 FloatingCTA와 같은 패턴
+   ────────────────────────────────────────────── */
+.caparol-floating {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 999;
+  display: none;
+  border-top: 1px solid var(--caparol-line);
+  background: #fff;
+}
+.caparol-floating a {
+  flex: 1;
+  padding: .9rem 0;
+  text-align: center;
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--caparol-ink);
+  text-decoration: none;
+}
+.caparol-floating a.is-primary { background: var(--caparol-blue); color: #fff; }
+
+@media (max-width: 768px) {
+  .caparol-floating { display: flex; }
+  body { padding-bottom: 56px; }   /* 고정 바에 콘텐츠가 가리지 않도록 */
+}
+
+/* ── 제품 기술 데이터 표 ─────────────────────── */
+.caparol-specs { width: 100%; border-collapse: collapse; }
+.caparol-specs th,
+.caparol-specs td {
+  padding: .75rem 1rem;
+  border-bottom: 1px solid var(--caparol-line);
+  text-align: left;
+  font-size: .9375rem;
+}
+.caparol-specs th {
+  width: 30%;
+  background: var(--caparol-bg-alt);
+  font-weight: 600;
+  color: var(--caparol-gray);
+}
+
+/* 좁은 화면에서 표가 잘리지 않도록 가로 스크롤 */
+.caparol-specs-wrap { overflow-x: auto; }
+
+/* ── 색상 칩 그리드 ─────────────────────────── */
+.caparol-colors {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 1rem;
+}
+.caparol-color__chip {
+  aspect-ratio: 1;
+  border-radius: var(--caparol-radius);
+  border: 1px solid var(--caparol-line);
+}
+.caparol-color__code { font-size: .8125rem; color: var(--caparol-gray); }
