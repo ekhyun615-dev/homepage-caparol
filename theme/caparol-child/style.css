@@ -154,3 +154,27 @@ a { color: var(--caparol-green-dark); }
   border: 1px solid var(--caparol-line);
 }
 .caparol-color__code { font-size: .8125rem; color: var(--caparol-gray); }
+
+/* ── 제품 주요 특징 목록 ─────────────────────── */
+.caparol-features {
+  list-style: none;
+  margin: 0 0 1.5rem;
+  padding: 0;
+}
+.caparol-features li {
+  position: relative;
+  padding: .4rem 0 .4rem 1.5rem;
+  font-size: .9375rem;
+}
+/* 브랜드 그린 체크 표시 */
+.caparol-features li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: .95em;
+  width: 10px;
+  height: 5px;
+  border-left: 2px solid var(--caparol-green);
+  border-bottom: 2px solid var(--caparol-green);
+  transform: rotate(-45deg) translateY(-50%);
+}

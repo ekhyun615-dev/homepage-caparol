@@ -63,32 +63,135 @@ add_action( 'wp_footer', function () {
 } );
 
 /* ──────────────────────────────────────────────
-   제품 기술 데이터 표 출력
+   제품 기술 데이터 · 주요 특징 출력
 
-   ACF 반복 필드 `specs`(항목명 label + 값 value)를 표로 렌더링합니다.
-   템플릿에서 caparol_specs_table() 로 호출하세요.
+   ACF 무료판에는 반복 필드가 없습니다.
+   그래서 텍스트영역 한 칸에 여러 줄을 받아 코드가 표·목록으로 그립니다.
+
+   입력 예 (기술 데이터):
+       광택도 : 무광
+       소요량 : 0.15~0.20 ℓ/㎡
+       희석률 : 물 5% 이내
+
+   엑셀에서 두 칸을 복사해 붙여넣으면 탭으로 구분되는데, 그것도 그대로 인식합니다.
    ────────────────────────────────────────────── */
+
+/**
+ * 여러 줄 텍스트를 [항목, 값] 목록으로 변환합니다.
+ *
+ * 구분자는 탭(엑셀 복붙) → 콜론(: 또는 ：) 순서로 봅니다.
+ * 값에 콜론이 들어가도(예: "혼합비 : 1:3") 첫 콜론에서만 나누므로 안전합니다.
+ * 구분자가 아예 없는 줄은 버리지 않고 값 없는 줄로 남깁니다 —
+ * 조용히 사라지면 입력한 사람이 빠진 걸 눈치채지 못합니다.
+ *
+ * @return array 각 항목은 array('label' => string, 'value' => string|null)
+ */
+function caparol_parse_lines( $raw ) {
+	$rows = array();
+
+	if ( ! is_string( $raw ) || '' === trim( $raw ) ) {
+		return $rows;
+	}
+
+	foreach ( preg_split( '/\r\n|\r|\n/', $raw ) as $line ) {
+		$line = trim( $line );
+		if ( '' === $line ) {
+			continue;
+		}
+
+		if ( false !== strpos( $line, "\t" ) ) {
+			$parts = explode( "\t", $line, 2 );
+			$rows[] = array(
+				'label' => trim( $parts[0] ),
+				'value' => trim( $parts[1] ),
+			);
+		} elseif ( preg_match( '/^(.+?)\s*[:：]\s*(.*)$/u', $line, $m ) ) {
+			$rows[] = array(
+				'label' => trim( $m[1] ),
+				'value' => trim( $m[2] ),
+			);
+		} else {
+			$rows[] = array(
+				'label' => $line,
+				'value' => null,
+			);
+		}
+	}
+
+	return $rows;
+}
+
+/**
+ * 기술 데이터 표를 출력합니다. Elementor 단축코드 위젯에서 [caparol_specs] 로 쓰세요.
+ */
 function caparol_specs_table( $post_id = null ) {
-	if ( ! function_exists( 'have_rows' ) ) {
-		return; // ACF 미설치
-	}
-	$post_id = $post_id ?: get_the_ID();
-
-	if ( ! have_rows( 'specs', $post_id ) ) {
-		return;
+	if ( ! function_exists( 'get_field' ) ) {
+		return '';
 	}
 
-	echo '<div class="caparol-specs-wrap"><table class="caparol-specs"><tbody>';
-	while ( have_rows( 'specs', $post_id ) ) {
-		the_row();
-		printf(
+	$rows = caparol_parse_lines( get_field( 'specs', $post_id ?: get_the_ID() ) );
+	if ( ! $rows ) {
+		return '';
+	}
+
+	$html = '<div class="caparol-specs-wrap"><table class="caparol-specs"><tbody>';
+	foreach ( $rows as $row ) {
+		if ( null === $row['value'] ) {
+			// 구분자를 빠뜨린 줄 — 한 칸으로 넓게 보여 눈에 띄게 합니다
+			$html .= sprintf(
+				'<tr><td colspan="2">%s</td></tr>',
+				esc_html( $row['label'] )
+			);
+			continue;
+		}
+		$html .= sprintf(
 			'<tr><th scope="row">%s</th><td>%s</td></tr>',
-			esc_html( get_sub_field( 'label' ) ),
-			esc_html( get_sub_field( 'value' ) )
+			esc_html( $row['label'] ),
+			esc_html( $row['value'] )
 		);
 	}
-	echo '</tbody></table></div>';
+	$html .= '</tbody></table></div>';
+
+	return $html;
 }
+add_shortcode( 'caparol_specs', function () {
+	return caparol_specs_table();
+} );
+
+/**
+ * 주요 특징 목록을 출력합니다. [caparol_features] 로 쓰세요.
+ *
+ * 한 줄에 하나씩 입력받습니다. 줄 앞의 -, ·, • 는 알아서 떼어냅니다.
+ */
+function caparol_features_list( $post_id = null ) {
+	if ( ! function_exists( 'get_field' ) ) {
+		return '';
+	}
+
+	$raw = get_field( 'features', $post_id ?: get_the_ID() );
+	if ( ! is_string( $raw ) || '' === trim( $raw ) ) {
+		return '';
+	}
+
+	$html = '<ul class="caparol-features">';
+	$empty = true;
+
+	foreach ( preg_split( '/\r\n|\r|\n/', $raw ) as $line ) {
+		$line = trim( preg_replace( '/^[\-·•*]\s*/u', '', trim( $line ) ) );
+		if ( '' === $line ) {
+			continue;
+		}
+		$html  .= '<li>' . esc_html( $line ) . '</li>';
+		$empty  = false;
+	}
+
+	$html .= '</ul>';
+
+	return $empty ? '' : $html;
+}
+add_shortcode( 'caparol_features', function () {
+	return caparol_features_list();
+} );
 
 /* ──────────────────────────────────────────────
    Astra 조정
