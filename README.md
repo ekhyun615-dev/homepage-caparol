@@ -30,6 +30,7 @@
 | [docs/ia.md](docs/ia.md) | 사이트 구조 설계서 — 메뉴·페이지·제품 분류·페이지별 구성 | **워드프레스 만지기 전에 먼저** |
 | [docs/wordpress-setup.md](docs/wordpress-setup.md) | 테마·플러그인·보안·SEO 초기 세팅 순서 | 구축 시작할 때 |
 | [docs/product-template.md](docs/product-template.md) | 제품 상세 템플릿 만들기 (Elementor 테마 빌더) | 필드 만든 다음 |
+| [docs/header-template.md](docs/header-template.md) | 헤더·메뉴 만들기 (Elementor) | 제품 템플릿 다음 |
 | [docs/acf-fields.md](docs/acf-fields.md) | 제품·색상·시공사례·기술자료 입력 칸 설정 (필드 이름 정확히) | 구조 만든 다음 |
 | [docs/content-plan.md](docs/content-plan.md) | 확보해야 할 자료 목록 (사진·PDF·회사정보) | 자료 수집할 때 |
 | [docs/operations.md](docs/operations.md) | 백업 주기·업데이트 규칙·장애 대응 | 오픈 후 상시 |
