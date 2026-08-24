@@ -281,3 +281,77 @@ add_action( 'manage_document_posts_custom_column', function ( $column, $post_id 
 		printf( '<span>%s</span>', esc_html( $date ) );
 	}
 }, 10, 2 );
+
+/* ──────────────────────────────────────────────
+   한글 슬러그 경고
+
+   제목을 한글로 쓰면 주소(슬러그)도 한글이 됩니다.
+   화면에는 "/products/암피볼린/" 으로 보이지만 실제 주소는
+   "/products/%EC%95%94%ED%94%BC%EB%B3%BC%EB%A6%B0/" 입니다.
+   카카오톡·문자로 공유할 때 링크가 잘리고, 문서에 적으면 한 줄을 다 잡아먹습니다.
+
+   나중에 고치면 이미 퍼진 링크가 전부 죽으므로, 등록 직후에 알려줍니다.
+   ────────────────────────────────────────────── */
+
+/** 슬러그가 영문·숫자·하이픈이 아닌 문자를 포함하는지 */
+function caparol_slug_needs_fix( $slug ) {
+	if ( '' === $slug ) {
+		return false;
+	}
+	// 워드프레스는 한글 슬러그를 퍼센트 인코딩해서 저장합니다
+	return (bool) preg_match( '/%[0-9a-f]{2}/i', $slug )
+		|| (bool) preg_match( '/[^\x20-\x7e]/', $slug );
+}
+
+/* 편집 화면 상단에 경고 */
+add_action( 'admin_notices', function () {
+	$screen = get_current_screen();
+	if ( ! $screen || 'post' !== $screen->base ) {
+		return;
+	}
+	if ( ! in_array( $screen->post_type, array( 'product', 'reference', 'color', 'document' ), true ) ) {
+		return;
+	}
+
+	$post = get_post();
+	if ( ! $post || ! caparol_slug_needs_fix( $post->post_name ) ) {
+		return;
+	}
+
+	printf(
+		'<div class="notice notice-warning"><p><strong>주소(슬러그)가 한글입니다.</strong> ' .
+		'오른쪽 <em>슬러그</em> 항목을 영문 소문자와 하이픈으로 바꿔주세요. ' .
+		'예: <code>amphibolin</code>, <code>yangpyeong-house</code><br>' .
+		'한글 주소는 카카오톡·문자로 공유할 때 링크가 깨집니다. ' .
+		'공개 후에 바꾸면 이미 퍼진 링크가 모두 죽으니 <strong>지금 고치는 것이 가장 쌉니다.</strong></p></div>'
+	);
+} );
+
+/* 목록 화면에 슬러그 열 추가 — 잘못된 것들을 한눈에 */
+foreach ( array( 'product', 'reference', 'color', 'document' ) as $caparol_pt ) {
+
+	add_filter( "manage_{$caparol_pt}_posts_columns", function ( $columns ) {
+		$columns['caparol_slug'] = '주소(슬러그)';
+		return $columns;
+	} );
+
+	add_action( "manage_{$caparol_pt}_posts_custom_column", function ( $column, $post_id ) {
+		if ( 'caparol_slug' !== $column ) {
+			return;
+		}
+		$slug = get_post_field( 'post_name', $post_id );
+
+		if ( '' === $slug ) {
+			echo '<span style="color:#999">—</span>';
+			return;
+		}
+		if ( caparol_slug_needs_fix( $slug ) ) {
+			printf(
+				'<strong style="color:#d63638">%s</strong><br><small>영문으로 변경 필요</small>',
+				esc_html( urldecode( $slug ) )
+			);
+			return;
+		}
+		echo '<code>' . esc_html( $slug ) . '</code>';
+	}, 10, 2 );
+}
