@@ -178,3 +178,19 @@ a { color: var(--caparol-green-dark); }
   border-bottom: 2px solid var(--caparol-green);
   transform: rotate(-45deg) translateY(-50%);
 }
+
+/* ──────────────────────────────────────────────
+   제품·시공사례·색상·기술자료에서 글 메타 숨김
+
+   "글쓴이 caparol / 8월 24, 2026" 같은 표시는 블로그 글에나 의미가 있습니다.
+   제품 카탈로그에 작성자와 작성일이 나오면 오래된 제품처럼 보이고,
+   설계사·시공사에게 아무 정보도 주지 않습니다.
+   ────────────────────────────────────────────── */
+.single-product .entry-meta,
+.single-reference .entry-meta,
+.single-color .entry-meta,
+.single-document .entry-meta,
+.post-type-archive-product .entry-meta,
+.post-type-archive-reference .entry-meta {
+  display: none;
+}
