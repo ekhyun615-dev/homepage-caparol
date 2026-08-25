@@ -238,3 +238,237 @@ a { color: var(--caparol-green-dark); }
     white-space: nowrap;
   }
 }
+
+/* ══════════════════════════════════════════════════════════
+   제품 상세 페이지 (single-product.php)
+
+   Elementor 없이 코드로 그리는 화면입니다.
+   여백·글자 크기·색을 여기서 한 번에 관리하므로,
+   제품이 몇 개가 되든 모든 페이지가 같은 품질로 나옵니다.
+   ══════════════════════════════════════════════════════════ */
+
+.cp-product {
+  max-width: var(--caparol-max);
+  margin: 0 auto;
+  padding: 3rem 1.25rem 0;
+}
+
+/* ── 상단 2단: 이미지 + 개요 ───────────────────────── */
+.cp-product__hero {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: 3rem;
+  align-items: start;
+  padding-bottom: 3.5rem;
+  border-bottom: 1px solid var(--caparol-line);
+}
+
+.cp-product__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--caparol-radius);
+}
+.cp-product__image--empty {
+  aspect-ratio: 4 / 3;
+  background: var(--caparol-bg-alt);
+  border: 1px dashed var(--caparol-line);
+}
+
+.cp-product__cat {
+  margin: 0 0 .75rem;
+  font-size: .8125rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.cp-product__cat a {
+  color: var(--caparol-green-dark);
+  text-decoration: none;
+  font-weight: 600;
+}
+.cp-product__cat a:hover { text-decoration: underline; }
+
+.cp-product__title {
+  margin: 0 0 1rem;
+  font-size: clamp(1.875rem, 1.2rem + 2vw, 2.75rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--caparol-ink);
+}
+
+.cp-product__summary {
+  margin: 0 0 2rem;
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--caparol-gray);
+}
+
+.cp-product__usage {
+  margin: 0 0 2rem;
+  padding: 1.25rem 1.5rem;
+  background: var(--caparol-bg-alt);
+  border-left: 3px solid var(--caparol-green);
+  border-radius: 0 var(--caparol-radius) var(--caparol-radius) 0;
+}
+.cp-product__usage dt {
+  margin: 0 0 .375rem;
+  font-size: .8125rem;
+  font-weight: 700;
+  color: var(--caparol-gray);
+  letter-spacing: .02em;
+}
+.cp-product__usage dd {
+  margin: 0;
+  font-size: .9375rem;
+  line-height: 1.7;
+}
+
+.cp-product__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+}
+
+/* ── 버튼 ──────────────────────────────────────────── */
+.cp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .8125rem 1.75rem;
+  border-radius: var(--caparol-radius);
+  font-size: .9375rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color .15s, color .15s, border-color .15s;
+}
+/* 초록 배경에는 어두운 글씨 — 흰 글씨는 대비 부족 (brand/README.md) */
+.cp-btn--primary {
+  background: var(--caparol-green);
+  color: var(--caparol-ink);
+}
+.cp-btn--primary:hover {
+  background: var(--caparol-green-dark);
+  color: #fff;
+}
+.cp-btn--ghost {
+  background: transparent;
+  color: var(--caparol-ink);
+  border: 1px solid var(--caparol-line);
+}
+.cp-btn--ghost:hover { border-color: var(--caparol-ink); color: var(--caparol-ink); }
+.cp-btn--lg { padding: 1rem 2.5rem; font-size: 1rem; }
+
+/* ── 공통 섹션 ─────────────────────────────────────── */
+.cp-section { padding: 3.5rem 0; border-bottom: 1px solid var(--caparol-line); }
+.cp-section:last-of-type { border-bottom: 0; }
+
+.cp-section__title {
+  margin: 0 0 1.75rem;
+  padding-bottom: .625rem;
+  border-bottom: 3px solid var(--caparol-green);
+  display: inline-block;
+  font-size: 1.375rem;
+  letter-spacing: -0.01em;
+  color: var(--caparol-ink);
+}
+
+.cp-prose { font-size: 1rem; line-height: 1.8; }
+.cp-prose > :first-child { margin-top: 0; }
+.cp-prose > :last-child { margin-bottom: 0; }
+
+.cp-note {
+  margin: 1rem 0 0;
+  font-size: .8125rem;
+  color: var(--caparol-gray);
+}
+
+/* ── 색상 칩 ───────────────────────────────────────── */
+.cp-colors {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cp-color a { display: block; text-decoration: none; color: inherit; }
+.cp-color__chip {
+  display: block;
+  aspect-ratio: 3 / 2;
+  border-radius: var(--caparol-radius);
+  border: 1px solid var(--caparol-line);
+  margin-bottom: .625rem;
+}
+.cp-color__name { display: block; font-size: .875rem; font-weight: 600; }
+.cp-color__code { display: block; font-size: .75rem; color: var(--caparol-gray); }
+
+/* ── 기술자료 목록 ─────────────────────────────────── */
+.cp-docs { list-style: none; margin: 0; padding: 0; }
+.cp-doc + .cp-doc { border-top: 1px solid var(--caparol-line); }
+.cp-doc a {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 1rem .25rem;
+  text-decoration: none;
+  color: var(--caparol-ink);
+}
+.cp-doc a:hover { background: var(--caparol-green-tint); }
+.cp-doc__name { font-weight: 600; font-size: .9375rem; }
+.cp-doc__name::before { content: "↓ "; color: var(--caparol-green-dark); font-weight: 700; }
+.cp-doc__note { font-size: .8125rem; color: var(--caparol-gray); }
+
+/* ── 시공사례 카드 ─────────────────────────────────── */
+.cp-refs {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.cp-ref a { display: block; text-decoration: none; color: inherit; }
+.cp-ref__thumb {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--caparol-radius);
+  background: var(--caparol-bg-alt);
+  margin-bottom: .75rem;
+}
+.cp-ref__thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cp-ref__title { display: block; font-weight: 600; font-size: .9375rem; line-height: 1.4; }
+.cp-ref__meta { display: block; margin-top: .25rem; font-size: .8125rem; color: var(--caparol-gray); }
+
+/* ── 하단 문의 유도 ────────────────────────────────── */
+.cp-cta {
+  margin: 4rem calc(-1 * 1.25rem) 0;
+  padding: 4rem 1.25rem;
+  background: var(--caparol-bg-alt);
+  text-align: center;
+}
+.cp-cta__lead {
+  margin: 0 0 .5rem;
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--caparol-green-dark);
+}
+.cp-cta__title {
+  margin: 0 0 2rem;
+  font-size: clamp(1.25rem, 1rem + 1vw, 1.75rem);
+  letter-spacing: -0.01em;
+}
+
+/* ── 모바일 ────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .cp-product__hero { grid-template-columns: 1fr; gap: 2rem; }
+}
+@media (max-width: 767px) {
+  .cp-product { padding-top: 2rem; }
+  .cp-section { padding: 2.5rem 0; }
+  .cp-product__hero { padding-bottom: 2.5rem; }
+  .cp-product__actions .cp-btn { flex: 1 1 auto; }
+  .cp-cta { padding: 3rem 1.25rem; }
+  /* 하단 고정 바에 가리지 않도록 */
+  .cp-cta { margin-bottom: 0; }
+}
