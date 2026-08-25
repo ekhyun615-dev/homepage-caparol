@@ -121,25 +121,135 @@ a { color: var(--caparol-green-dark); }
 /* 좁은 화면에서 표가 잘리지 않도록 가로 스크롤 */
 .caparol-specs-wrap { overflow-x: auto; }
 
-/* ──────────────────────────────────────────────
-   푸터 — 검정 배경
+/* ══════════════════════════════════════════════════════════
+   푸터 (inc/footer.php)
 
-   ⚠️ 여기에는 흰색(반전) 로고가 필요합니다.
-   원본 로고는 코끼리가 검정이라 보이지 않습니다. (brand/README.md 참고)
-   ────────────────────────────────────────────── */
-.caparol-footer {
-  background: var(--caparol-ink);
-  color: #d1d5db;
+   Astra 기본 푸터는 숨기고 자식 테마가 직접 그립니다.
+
+   ⚠️ 왜 검정이 아니라 밝은 회색인가
+   지금 가진 반전 로고는 글자만 흰색이고 코끼리는 검정입니다.
+   검정 배경에 올리면 코끼리가 사라집니다.
+   본사에서 진짜 반전 로고(코끼리까지 흰색)를 받으면
+   아래 --cf-* 네 값만 바꾸면 검정 푸터가 됩니다.
+   ══════════════════════════════════════════════════════════ */
+
+/* Astra 기본 푸터 숨김 */
+.site-footer,
+.ast-small-footer,
+.site-primary-footer-wrap,
+.site-below-footer-wrap { display: none !important; }
+
+.cf {
+  --cf-bg:     #f6f7f8;
+  --cf-text:   #1a1a1a;
+  --cf-muted:  #6b7280;
+  --cf-line:   #e0e2e5;
+
+  background: var(--cf-bg);
+  color: var(--cf-text);
+  border-top: 3px solid var(--caparol-green);
+  font-size: .875rem;
+  line-height: 1.7;
 }
-.caparol-footer a { color: #fff; }
-.caparol-footer a:hover { color: var(--caparol-green); }
 
-/* 푸터 위 얇은 브랜드 그린 띠 — 로고의 색 띠를 연상시키는 최소한의 장치 */
-.caparol-footer::before {
-  content: "";
-  display: block;
-  height: 4px;
-  background: var(--caparol-green);
+.cf__in {
+  max-width: var(--caparol-max);
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 3rem;
+  display: grid;
+  grid-template-columns: 1.6fr 1fr 1fr 1.2fr;
+  gap: 3rem;
+}
+
+/* ── 브랜드 열 ─────────────────────────────────────── */
+.cf__brand .custom-logo-link { display: inline-block; margin-bottom: 1rem; }
+/* 폭을 명시합니다. SVG 로고는 크기 정보가 없어 max-width만으로는 0px이 될 수 있습니다. */
+.cf__brand .custom-logo {
+  width: 140px;
+  max-width: 100%;
+  height: auto;
+}
+.cf__name {
+  margin: 0 0 .75rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.cf__tagline {
+  margin: 0;
+  max-width: 22rem;
+  color: var(--cf-muted);
+  font-size: .8125rem;
+}
+
+/* ── 링크 열 ───────────────────────────────────────── */
+.cf__heading {
+  margin: 0 0 1rem;
+  font-size: .8125rem;
+  font-weight: 800;
+  letter-spacing: .06em;
+  color: var(--cf-text);
+}
+.cf__list { list-style: none; margin: 0; padding: 0; }
+.cf__list li + li { margin-top: .5rem; }
+.cf__list a {
+  color: var(--cf-muted);
+  text-decoration: none;
+  font-size: .8125rem;
+}
+.cf__list a:hover { color: var(--caparol-green-dark); text-decoration: underline; }
+
+/* ── 연락처 열 ─────────────────────────────────────── */
+.cf__tel {
+  display: inline-block;
+  font-size: 1.375rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--cf-text);
+  text-decoration: none;
+}
+.cf__tel:hover { color: var(--caparol-green-dark); }
+.cf__hours,
+.cf__email {
+  margin: .375rem 0 0;
+  font-size: .8125rem;
+  color: var(--cf-muted);
+}
+.cf__email a { color: var(--cf-muted); }
+.cf__cta { margin-top: 1.25rem; }
+
+/* ── 하단 법적 표기 ────────────────────────────────── */
+.cf__legal { border-top: 1px solid var(--cf-line); }
+.cf__legal-in {
+  max-width: var(--caparol-max);
+  margin: 0 auto;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem 2rem;
+  justify-content: space-between;
+  font-size: .75rem;
+  color: var(--cf-muted);
+}
+.cf__biz,
+.cf__copy { margin: 0; }
+
+/* ── 태블릿 ────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .cf__in { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+  .cf__brand { grid-column: 1 / -1; }
+}
+
+/* ── 모바일 ────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .cf__in {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 2.5rem 1.25rem 2rem;
+  }
+  .cf__tagline { max-width: none; }
+  .cf__legal-in { padding: 1rem 1.25rem; }
+  .cf__cta { width: 100%; }
 }
 
 /* ── 색상 칩 그리드 ─────────────────────────── */

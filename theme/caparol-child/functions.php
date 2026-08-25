@@ -12,6 +12,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /* ──────────────────────────────────────────────
+   분리된 파일 불러오기
+   ────────────────────────────────────────────── */
+require_once get_stylesheet_directory() . '/inc/site-info.php';   // 회사 정보 (여기만 고치면 됩니다)
+require_once get_stylesheet_directory() . '/inc/footer.php';      // 푸터
+
+/* ──────────────────────────────────────────────
    스타일 로드
    ────────────────────────────────────────────── */
 add_action( 'wp_enqueue_scripts', function () {
@@ -44,23 +50,25 @@ add_filter( 'acf/settings/load_json', function ( $paths ) {
 /* ──────────────────────────────────────────────
    모바일 하단 고정 바 (전화 · 카카오 · 상담신청)
 
-   ⚠️ 아래 연락처는 임시값입니다. 실제 값으로 교체하세요.
+   연락처는 inc/site-info.php 한 곳에서 가져옵니다.
    ────────────────────────────────────────────── */
 add_action( 'wp_footer', function () {
-	$tel   = '0212345678';                    // TODO: 실제 대표번호
-	$kakao = 'https://pf.kakao.com/_XXXXXX';  // TODO: 실제 카카오채널 URL
 
-	printf(
-		'<nav class="caparol-floating" aria-label="빠른 문의">
-			<a href="tel:%1$s">☎ 전화문의</a>
-			<a href="%2$s" target="_blank" rel="noopener">💬 카카오톡</a>
-			<a href="%3$s" class="is-primary">📝 상담신청</a>
-		</nav>',
-		esc_attr( $tel ),
-		esc_url( $kakao ),
-		esc_url( home_url( '/contact/' ) )
-	);
-} );
+	$tel   = caparol_info( 'tel_raw' );
+	$kakao = caparol_info( 'kakao' );
+
+	echo '<nav class="caparol-floating" aria-label="빠른 문의">';
+
+	if ( $tel ) {
+		echo '<a href="tel:' . esc_attr( $tel ) . '">☎ 전화문의</a>';
+	}
+	if ( $kakao ) {
+		echo '<a href="' . esc_url( $kakao ) . '" target="_blank" rel="noopener">💬 카카오톡</a>';
+	}
+	echo '<a href="' . esc_url( home_url( '/contact/' ) ) . '" class="is-primary">📝 상담신청</a>';
+
+	echo '</nav>';
+}, 20 );
 
 /* ──────────────────────────────────────────────
    제품 기술 데이터 · 주요 특징 출력
