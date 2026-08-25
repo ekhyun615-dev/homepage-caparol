@@ -22,13 +22,27 @@ get_header();
 while ( have_posts() ) :
 	the_post();
 
-	$post_id  = get_the_ID();
-	$acf      = function_exists( 'get_field' );
-	$summary  = $acf ? get_field( 'summary', $post_id ) : '';
-	$usage    = $acf ? get_field( 'usage', $post_id ) : '';
-	$colors   = $acf ? get_field( 'product_colors', $post_id ) : array();
-	$docs     = $acf ? get_field( 'documents', $post_id ) : array();
-	$cats     = get_the_terms( $post_id, 'product_cat' );
+	$post_id = get_the_ID();
+	$acf     = function_exists( 'get_field' );
+
+	/**
+	 * ACF는 값이 없으면 false, 관계 필드는 배열 또는 false를 돌려줍니다.
+	 * 뒤에서 문자열 함수와 foreach에 그대로 넣으면 오류가 나므로 여기서 한 번에 정규화합니다.
+	 */
+	$summary = $acf ? get_field( 'summary', $post_id ) : '';
+	$summary = is_scalar( $summary ) ? (string) $summary : '';
+
+	$usage = $acf ? get_field( 'usage', $post_id ) : '';
+	$usage = is_scalar( $usage ) ? (string) $usage : '';
+
+	$colors = $acf ? get_field( 'product_colors', $post_id ) : array();
+	$colors = is_array( $colors ) ? $colors : array();
+
+	$docs = $acf ? get_field( 'documents', $post_id ) : array();
+	$docs = is_array( $docs ) ? $docs : array();
+
+	$cats = get_the_terms( $post_id, 'product_cat' );
+	$cats = ( $cats && ! is_wp_error( $cats ) ) ? $cats : array();
 	?>
 
 	<main class="cp-product">
@@ -46,7 +60,7 @@ while ( have_posts() ) :
 
 			<div class="cp-product__intro">
 
-				<?php if ( $cats && ! is_wp_error( $cats ) ) : ?>
+				<?php if ( $cats ) : ?>
 					<p class="cp-product__cat">
 						<?php foreach ( $cats as $cat ) : ?>
 							<a href="<?php echo esc_url( get_term_link( $cat ) ); ?>"><?php echo esc_html( $cat->name ); ?></a>
@@ -94,7 +108,8 @@ while ( have_posts() ) :
 		<?php endif; ?>
 
 		<!-- ── 제품 설명 (본문) ──────────────────────────── -->
-		<?php if ( trim( get_the_content() ) ) : ?>
+		<?php $body = trim( wp_strip_all_tags( get_the_content() ) ); ?>
+		<?php if ( '' !== $body ) : ?>
 			<section class="cp-section">
 				<h2 class="cp-section__title">제품 설명</h2>
 				<div class="cp-prose"><?php the_content(); ?></div>
@@ -109,11 +124,13 @@ while ( have_posts() ) :
 					<?php foreach ( $colors as $color ) :
 						$cid  = is_object( $color ) ? $color->ID : (int) $color;
 						$hex  = $acf ? get_field( 'color_hex', $cid ) : '';
+						$hex  = is_string( $hex ) && '' !== $hex ? $hex : '#e5e7eb';
 						$code = $acf ? get_field( 'color_code', $cid ) : '';
+						$code = is_scalar( $code ) ? (string) $code : '';
 						?>
 						<li class="cp-color">
 							<a href="<?php echo esc_url( get_permalink( $cid ) ); ?>">
-								<span class="cp-color__chip" style="background:<?php echo esc_attr( $hex ?: '#e5e7eb' ); ?>"></span>
+								<span class="cp-color__chip" style="background:<?php echo esc_attr( $hex ); ?>"></span>
 								<span class="cp-color__name"><?php echo esc_html( get_the_title( $cid ) ); ?></span>
 								<?php if ( $code ) : ?>
 									<span class="cp-color__code"><?php echo esc_html( $code ); ?></span>
@@ -134,8 +151,20 @@ while ( have_posts() ) :
 					<?php foreach ( $docs as $doc ) :
 						$did  = is_object( $doc ) ? $doc->ID : (int) $doc;
 						$file = $acf ? get_field( 'file', $did ) : '';
-						$url  = is_array( $file ) ? ( $file['url'] ?? '' ) : $file;
+
+						// ACF 파일 필드는 설정에 따라 배열 · ID · URL 문자열 중 하나를 돌려줍니다
+						if ( is_array( $file ) && ! empty( $file['url'] ) ) {
+							$url = $file['url'];
+						} elseif ( is_numeric( $file ) ) {
+							$url = wp_get_attachment_url( (int) $file );
+						} elseif ( is_string( $file ) ) {
+							$url = $file;
+						} else {
+							$url = '';
+						}
+
 						$note = $acf ? get_field( 'doc_note', $did ) : '';
+						$note = is_scalar( $note ) ? (string) $note : '';
 						?>
 						<li class="cp-doc">
 							<a href="<?php echo esc_url( $url ?: get_permalink( $did ) ); ?>"<?php echo $url ? ' target="_blank" rel="noopener"' : ''; ?>>
@@ -177,7 +206,10 @@ while ( have_posts() ) :
 									} ?>
 								</span>
 								<span class="cp-ref__title"><?php the_title(); ?></span>
-								<?php $loc = $acf ? get_field( 'location' ) : ''; ?>
+								<?php
+								$loc = $acf ? get_field( 'location' ) : '';
+								$loc = is_scalar( $loc ) ? (string) $loc : '';
+								?>
 								<?php if ( $loc ) : ?>
 									<span class="cp-ref__meta"><?php echo esc_html( $loc ); ?></span>
 								<?php endif; ?>
