@@ -194,3 +194,47 @@ a { color: var(--caparol-green-dark); }
 .post-type-archive-reference .entry-meta {
   display: none;
 }
+
+/* ──────────────────────────────────────────────
+   모바일 헤더를 한 줄로 고정
+
+   Elementor 헤더 템플릿의 모바일 설정(방향·너비)이 기기별 값으로 흩어져
+   의도대로 안 먹는 경우가 있습니다. 편집기에서 값을 맞춰도 세로로 쌓이면
+   이 규칙이 강제로 한 줄로 잡아줍니다.
+
+   Elementor가 만드는 인라인 스타일보다 뒤에 와야 하므로 !important를 씁니다.
+   모바일(767px 이하)의 헤더 영역에만 적용되므로 다른 곳에는 영향이 없습니다.
+   ────────────────────────────────────────────── */
+@media (max-width: 767px) {
+
+  /* 헤더 컨테이너: 가로 한 줄, 줄바꿈 없음, 양 끝 정렬 */
+  .elementor-location-header .e-con,
+  .elementor-location-header .e-con-inner {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  /* 자식 위젯이 각각 전체 폭을 차지해 줄바꿈되는 것을 막습니다 */
+  .elementor-location-header .e-con > .elementor-widget,
+  .elementor-location-header .e-con-inner > .elementor-widget {
+    width: auto !important;
+    max-width: none !important;
+    flex: 0 0 auto !important;
+  }
+
+  /* 로고(사이트 제목)가 길면 줄여서 햄버거를 밀어내지 않도록 */
+  .elementor-location-header .elementor-widget-site-title,
+  .elementor-location-header .elementor-widget-theme-site-title {
+    min-width: 0;
+    overflow: hidden;
+  }
+  .elementor-location-header .elementor-widget-site-title a,
+  .elementor-location-header .elementor-widget-theme-site-title a {
+    font-size: 1.375rem;
+    white-space: nowrap;
+  }
+}
