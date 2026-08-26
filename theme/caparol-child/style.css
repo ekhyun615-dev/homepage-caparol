@@ -1261,6 +1261,159 @@ body.single-document { background: var(--caparol-bg); }
 }
 
 /* ══════════════════════════════════════════════════════════
+   브랜드 소개 (page-about.php)
+   홈의 섹션·지표·CTA 스타일을 그대로 쓰고 다른 부분만 여기에 둡니다.
+   ══════════════════════════════════════════════════════════ */
+
+body.page-about .site-content .ast-container { max-width: none; padding: 0; }
+body.page-about #primary { margin: 0; padding: 0; }
+body.page-about { background: var(--caparol-bg); }
+body.page-about .entry-header { display: none; }
+
+.ab-hero { padding: 6rem 0 5rem; }
+.ab-hero__in {
+  max-width: var(--caparol-max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+.ab-hero__title {
+  margin: 0;
+  max-width: 20em;
+  font-size: clamp(2rem, 5.5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+.ab-hero__text {
+  margin: 1.75rem 0 0;
+  max-width: 36rem;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #374151;
+}
+
+/* ── 회사 이야기 ───────────────────────────────────── */
+.ab-story {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+  gap: 3.5rem;
+  align-items: center;
+}
+.ab-story--text { grid-template-columns: minmax(0, 1fr); max-width: 44rem; }
+.ab-story__media { margin: 0; border-radius: var(--caparol-radius); overflow: hidden; background: var(--caparol-bg-alt); }
+.ab-story__media img { display: block; width: 100%; height: auto; }
+.ab-story__body { font-size: 1rem; line-height: 1.9; }
+
+/* ── 왜 Caparol 인가 ───────────────────────────────── */
+.ab-points {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem;
+}
+.ab-point {
+  padding-top: 1.5rem;
+  border-top: 3px solid var(--caparol-green);
+}
+.ab-point__n {
+  display: block;
+  font-size: .8125rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  color: var(--caparol-green-dark);
+  margin-bottom: .75rem;
+}
+.ab-point__title {
+  margin: 0 0 .625rem;
+  font-size: 1.1875rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.ab-point__text {
+  margin: 0;
+  font-size: .9375rem;
+  line-height: 1.75;
+  color: var(--caparol-gray);
+}
+
+/* ── 연혁 ──────────────────────────────────────────── */
+.ab-history {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-width: 48rem;
+}
+.ab-history__item {
+  display: flex;
+  gap: 2rem;
+  padding: 1.125rem 0;
+  border-bottom: 1px solid var(--caparol-line);
+}
+.ab-history__item:first-child { border-top: 1px solid var(--caparol-line); }
+.ab-history__year {
+  flex: 0 0 5rem;
+  font-size: .9375rem;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--caparol-green-dark);
+}
+.ab-history__text {
+  flex: 1 1 auto;
+  font-size: .9375rem;
+  line-height: 1.7;
+}
+
+/* ── 카파롤코리아가 하는 일 ────────────────────────── */
+.ab-roles {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+.ab-role {
+  padding: 1.75rem 1.5rem;
+  background: #fff;
+  border-radius: var(--caparol-radius);
+  border: 1px solid var(--caparol-line);
+}
+.ab-role__title {
+  margin: 0 0 .5rem;
+  font-size: 1.0625rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.ab-role__text {
+  margin: 0;
+  font-size: .875rem;
+  line-height: 1.7;
+  color: var(--caparol-gray);
+}
+
+/* ── 태블릿 ────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .ab-points { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ab-roles  { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ── 모바일 ────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .ab-hero { padding: 3.5rem 0 3rem; }
+  .ab-hero__in { padding: 0 1.25rem; }
+  .ab-hero__text { font-size: 1.0625rem; margin-top: 1.25rem; }
+
+  .ab-story { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; }
+  .ab-points { grid-template-columns: minmax(0, 1fr); gap: 1.75rem; }
+  .ab-roles  { grid-template-columns: minmax(0, 1fr); }
+
+  .ab-history__item { flex-direction: column; gap: .25rem; padding: 1rem 0; }
+  .ab-history__year { flex: none; }
+}
+
+/* ══════════════════════════════════════════════════════════
    푸터 (inc/footer.php)
 
    Astra 기본 푸터는 숨기고 자식 테마가 직접 그립니다.

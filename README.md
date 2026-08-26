@@ -68,3 +68,39 @@
 6. [ ] 자식 테마 디자인 작업 → `theme/caparol-child/` 에 커밋
 7. [ ] 실서버 이전 · 도메인 연결 · SSL
 8. [ ] 네이버 서치어드바이저 · 구글 서치콘솔 등록
+
+## 만들어진 화면 (2026-08-26)
+
+디자인은 모두 코드입니다. Elementor 는 헤더에만 씁니다.
+파일을 올리면 주소가 자동으로 생깁니다 — 워드프레스에서 페이지를 만들 필요가 없습니다.
+(`/contact`, `/about` 두 곳만 슬러그가 같은 빈 페이지가 필요합니다)
+
+| 주소 | 템플릿 파일 |
+|---|---|
+| `/` | `front-page.php` |
+| `/products/` | `archive-product.php` |
+| `/products/category/{slug}/` | `taxonomy-product_cat.php` |
+| `/products/{제품}/` | `single-product.php` |
+| `/references/` | `archive-reference.php` |
+| `/references/region/{slug}/` | `taxonomy-reference_region.php` |
+| `/references/type/{slug}/` | `taxonomy-reference_type.php` |
+| `/references/{현장}/` | `single-reference.php` |
+| `/downloads/` | `archive-document.php` |
+| `/downloads/type/{slug}/` | `taxonomy-document_type.php` |
+| `/downloads/{자료}/` | `single-document.php` |
+| `/contact/` | `page-contact.php` ← 슬러그 `contact` 페이지 필요 |
+| `/about/` | `page-about.php` ← 슬러그 `about` 페이지 필요 |
+| 푸터 (전 화면) | `inc/footer.php` |
+
+### 글을 고칠 때 여는 파일
+
+| 무엇 | 파일 |
+|---|---|
+| 연락처 · 사업자정보 · 홈 문구 · 신뢰지표 | `inc/site-info.php` |
+| 브랜드 소개 문구 · 연혁 | `inc/about-content.php` |
+| 그 외 모든 글 | 워드프레스 관리자 |
+
+### 아직 없는 화면
+
+- 컬러 (`/colors/`) — 색상 데이터(색상번호 + HEX) 확보 후
+- 공지사항 · 게시판

@@ -21,6 +21,7 @@ require_once get_stylesheet_directory() . '/inc/contact-form.php';  // 문의 �
 require_once get_stylesheet_directory() . '/inc/reference-parts.php';    // 시공사례 부품
 require_once get_stylesheet_directory() . '/inc/reference-archive.php';  // 시공사례 분류별 목록
 require_once get_stylesheet_directory() . '/inc/document-parts.php';     // 기술자료 부품
+require_once get_stylesheet_directory() . '/inc/about-content.php';      // 브랜드 소개 내용
 
 /**
  * 사용자 정의 필드를 문자열로 안전하게 읽습니다.
