@@ -1414,6 +1414,68 @@ body.page-about .entry-header { display: none; }
 }
 
 /* ══════════════════════════════════════════════════════════
+   개인정보처리방침 등 긴 문서 페이지 (page-privacy.php)
+   ══════════════════════════════════════════════════════════ */
+
+body.page-privacy .site-content .ast-container { max-width: none; padding: 0; }
+body.page-privacy #primary { margin: 0; padding: 0; }
+body.page-privacy { background: var(--caparol-bg); }
+body.page-privacy .entry-header { display: none; }
+
+.pv__in {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 5rem;
+}
+.pv-head { padding-bottom: 2rem; border-bottom: 3px solid var(--caparol-green); }
+.pv-head__title {
+  margin: 0;
+  font-size: clamp(1.625rem, 3.5vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.pv-head__date {
+  margin: .75rem 0 0;
+  font-size: .8125rem;
+  color: var(--caparol-gray);
+}
+
+.pv-body { padding-top: 2.5rem; font-size: .9375rem; line-height: 1.9; }
+.pv-body h2 {
+  margin: 2.75rem 0 1rem;
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.pv-body h2:first-child { margin-top: 0; }
+.pv-body h3 {
+  margin: 1.75rem 0 .625rem;
+  font-size: 1rem;
+  font-weight: 700;
+}
+.pv-body ul, .pv-body ol { padding-left: 1.25rem; }
+.pv-body li { margin-bottom: .375rem; }
+.pv-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: .875rem;
+}
+.pv-body th, .pv-body td {
+  padding: .625rem .75rem;
+  border: 1px solid var(--caparol-line);
+  text-align: left;
+  vertical-align: top;
+}
+.pv-body th { background: var(--caparol-bg-alt); font-weight: 700; white-space: nowrap; }
+.pv-body table { display: block; overflow-x: auto; }
+
+@media (max-width: 767px) {
+  .pv__in { padding: 2.5rem 1.25rem 3.5rem; }
+  .pv-body { padding-top: 2rem; }
+}
+
+/* ══════════════════════════════════════════════════════════
    푸터 (inc/footer.php)
 
    Astra 기본 푸터는 숨기고 자식 테마가 직접 그립니다.
@@ -1525,6 +1587,10 @@ body.page-about .entry-header { display: none; }
 }
 .cf__biz,
 .cf__copy { margin: 0; }
+/* 개인정보처리방침은 법적으로 눈에 띄어야 합니다 — 저작권 표기보다 진하게 */
+.cf__privacy { color: var(--cf-text); font-weight: 700; text-decoration: none; }
+.cf__privacy:hover { text-decoration: underline; }
+.cf__sep { margin: 0 .5rem; color: var(--cf-line); }
 
 /* ── 태블릿 ────────────────────────────────────────── */
 @media (max-width: 1024px) {

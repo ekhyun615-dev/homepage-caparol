@@ -109,6 +109,8 @@ function caparol_render_footer() {
 					?>
 				</p>
 				<p class="cf__copy">
+					<a class="cf__privacy" href="<?php echo esc_url( home_url( '/privacy/' ) ); ?>">개인정보처리방침</a>
+					<span class="cf__sep">·</span>
 					&copy; <?php echo esc_html( gmdate( 'Y' ) ); ?> <?php echo esc_html( $i['company'] ); ?>. All rights reserved.
 				</p>
 			</div>
