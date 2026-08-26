@@ -904,6 +904,182 @@ body.home .entry-header, body.home .ast-archive-description { display: none; }
 }
 
 /* ══════════════════════════════════════════════════════════
+   시공사례 (archive-reference.php / single-reference.php)
+   제품 목록의 카드·필터 스타일을 그대로 쓰고, 다른 부분만 여기에 둡니다.
+   ══════════════════════════════════════════════════════════ */
+
+body.post-type-archive-reference .site-content .ast-container,
+body.tax-reference_region .site-content .ast-container,
+body.tax-reference_type .site-content .ast-container,
+body.single-reference .site-content .ast-container { max-width: none; padding: 0; }
+body.post-type-archive-reference #primary,
+body.tax-reference_region #primary,
+body.tax-reference_type #primary,
+body.single-reference #primary { margin: 0; padding: 0; }
+body.post-type-archive-reference,
+body.tax-reference_region,
+body.tax-reference_type,
+body.single-reference { background: var(--caparol-bg); }
+
+/* ── 두 줄짜리 필터 (지역 / 건물 용도) ─────────────── */
+.cl-filter--stack {
+  display: block;
+  padding-bottom: 2rem;
+}
+.cl-filter__row {
+  display: flex;
+  align-items: baseline;
+  gap: .875rem;
+  flex-wrap: wrap;
+}
+.cl-filter__row + .cl-filter__row { margin-top: .875rem; }
+.cl-filter__label {
+  flex: 0 0 4.5rem;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--caparol-gray);
+}
+.cl-filter__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+/* ── 사례 카드에만 붙는 것 ─────────────────────────── */
+.cl-card--ref .cl-card__media { aspect-ratio: 3 / 2; }
+/* 밝은 그린 위에는 어두운 글씨 (대비 기준) */
+.cl-card__badge {
+  position: absolute;
+  left: .75rem;
+  top: .75rem;
+  padding: .3125rem .625rem;
+  border-radius: 3px;
+  background: var(--caparol-green);
+  color: var(--caparol-ink);
+  font-size: .6875rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+.cl-card__meta {
+  margin: .4375rem 0 0;
+  font-size: .8125rem;
+  color: var(--caparol-gray);
+}
+
+/* 상세 하단 "다른 시공사례" 는 3열 고정 */
+.cl-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); padding-top: 0; }
+
+/* ── 사례 상세 ─────────────────────────────────────── */
+.rf__in {
+  max-width: var(--caparol-max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  --cp-pad: 1.5rem;
+}
+
+.rf-hero {
+  margin: 0 0 3rem;
+  background: var(--caparol-bg-alt);
+}
+.rf-hero__img {
+  display: block;
+  width: 100%;
+  max-height: 34rem;
+  object-fit: cover;
+}
+
+.rf-head { padding-bottom: 2.5rem; }
+.rf-head__title {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+.rf-head__line {
+  margin: 1rem 0 0;
+  font-size: 1rem;
+  color: var(--caparol-gray);
+}
+
+/* 사용 제품 */
+.rf-products {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.rf-product a {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: .75rem;
+  border: 1px solid var(--caparol-line);
+  border-radius: var(--caparol-radius);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .15s ease;
+}
+.rf-product a:hover { border-color: var(--caparol-green); color: inherit; }
+.rf-product__media {
+  flex: 0 0 4.5rem;
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 3px;
+  overflow: hidden;
+  background: var(--caparol-bg-alt);
+}
+.rf-product__media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rf-product__body { min-width: 0; }
+.rf-product__cat {
+  display: block;
+  font-size: .6875rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  color: var(--caparol-green-dark);
+  margin-bottom: .1875rem;
+}
+.rf-product__name {
+  display: block;
+  font-size: .9375rem;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* 다른 사례 */
+.rf-more {
+  padding: 3.5rem 0 4.5rem;
+  border-top: 1px solid var(--caparol-line);
+}
+
+/* ── 태블릿 ────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .cl-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ── 모바일 ────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .cl-filter__label { flex-basis: 100%; }
+  .cl-filter__row + .cl-filter__row { margin-top: 1.125rem; }
+
+  .rf__in { padding: 0 1.25rem; --cp-pad: 1.25rem; }
+  .rf-hero { margin-bottom: 1.75rem; }
+  .rf-hero__img { max-height: 15rem; }
+  .rf-head { padding-bottom: 1.75rem; }
+  .rf-head__line { font-size: .9375rem; margin-top: .75rem; }
+
+  .rf-products { grid-template-columns: minmax(0, 1fr); gap: .625rem; }
+
+  .cl-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rf-more { padding: 2.5rem 0 3rem; }
+}
+
+/* ══════════════════════════════════════════════════════════
    푸터 (inc/footer.php)
 
    Astra 기본 푸터는 숨기고 자식 테마가 직접 그립니다.

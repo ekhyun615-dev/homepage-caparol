@@ -18,6 +18,19 @@ require_once get_stylesheet_directory() . '/inc/site-info.php';   // 회사 정�
 require_once get_stylesheet_directory() . '/inc/footer.php';      // 푸터
 require_once get_stylesheet_directory() . '/inc/archive-parts.php'; // 목록 화면 부품 (카드·필터)
 require_once get_stylesheet_directory() . '/inc/contact-form.php';  // 문의 폼
+require_once get_stylesheet_directory() . '/inc/reference-parts.php';    // 시공사례 부품
+require_once get_stylesheet_directory() . '/inc/reference-archive.php';  // 시공사례 분류별 목록
+
+/**
+ * 사용자 정의 필드를 문자열로 안전하게 읽습니다.
+ * 배열·객체가 들어 있어도 빈 문자열이 되므로 화면이 깨지지 않습니다.
+ * ACF 함수(get_field) 대신 사이트 전체가 이 함수를 씁니다.
+ */
+function cp_meta( $key, $post_id = 0 ) {
+	$post_id = $post_id ? $post_id : get_the_ID();
+	$value   = get_post_meta( $post_id, $key, true );
+	return is_scalar( $value ) ? trim( (string) $value ) : '';
+}
 
 /* ──────────────────────────────────────────────
    스타일 로드
@@ -267,6 +280,12 @@ add_action( 'pre_get_posts', function ( $query ) {
 	if ( $query->is_post_type_archive( 'product' ) || $query->is_tax( 'product_cat' ) ) {
 		$query->set( 'posts_per_page', 12 );
 		$query->set( 'orderby', array( 'menu_order' => 'ASC', 'title' => 'ASC' ) );
+	}
+
+	// 시공사례 목록 — 최신순 12개씩
+	if ( $query->is_post_type_archive( 'reference' )
+		|| $query->is_tax( array( 'reference_region', 'reference_type' ) ) ) {
+		$query->set( 'posts_per_page', 12 );
 	}
 } );
 

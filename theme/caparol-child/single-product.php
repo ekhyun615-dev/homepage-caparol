@@ -22,15 +22,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-/** 사용자 정의 필드를 문자열로 안전하게 읽습니다. 배열·객체가 와도 빈 문자열이 됩니다. */
-if ( ! function_exists( 'cp_meta' ) ) {
-	function cp_meta( $key, $post_id = 0 ) {
-		$post_id = $post_id ? $post_id : get_the_ID();
-		$value   = get_post_meta( $post_id, $key, true );
-		return is_scalar( $value ) ? trim( (string) $value ) : '';
-	}
-}
-
 get_header();
 
 while ( have_posts() ) :
