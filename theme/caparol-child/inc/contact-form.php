@@ -188,8 +188,13 @@ function caparol_handle_contact_submit() {
 
 	set_transient( $key, $hits + 1, HOUR_IN_SECONDS );
 
-	// 새로고침으로 같은 문의가 두 번 접수되지 않도록 주소를 바꿔 이동합니다
-	wp_safe_redirect( add_query_arg( 'sent', '1', get_permalink() ) . '#contact-form' );
+	// 새로고침으로 같은 문의가 두 번 접수되지 않도록 주소를 바꿔 이동합니다.
+	// 지금 보고 있는 주소를 그대로 쓰고 ?sent=1 만 붙입니다.
+	$back = get_permalink();
+	if ( ! $back ) {
+		$back = home_url( '/contact/' );
+	}
+	wp_safe_redirect( add_query_arg( 'sent', '1', $back ) . '#contact-form' );
 	exit;
 }
 
@@ -269,7 +274,9 @@ function caparol_contact_form() {
 			<p class="cq-alert" role="alert">입력하지 않았거나 잘못된 항목이 있습니다. 아래 붉은색 안내를 확인해 주세요.</p>
 		<?php endif; ?>
 
-		<form class="cq-form" method="post" action="<?php echo esc_url( get_permalink() ); ?>#contact-form" novalidate>
+		<?php /* action 을 비워두면 브라우저가 "지금 보고 있는 주소" 로 그대로 보냅니다.
+		         주소를 코드로 다시 만들지 않으므로 404 가 날 여지가 없습니다. */ ?>
+		<form class="cq-form" method="post" action="#contact-form" novalidate>
 
 			<?php wp_nonce_field( 'caparol_contact', 'caparol_nonce' ); ?>
 			<input type="hidden" name="caparol_contact" value="1">
