@@ -280,8 +280,23 @@ add_action( 'pre_get_posts', function ( $query ) {
 
 	// 제품 목록 — 3열 그리드에 맞춰 12개씩, 등록 순서(메뉴 순서)대로
 	if ( $query->is_post_type_archive( 'product' ) || $query->is_tax( 'product_cat' ) ) {
+
 		$query->set( 'posts_per_page', 12 );
 		$query->set( 'orderby', array( 'menu_order' => 'ASC', 'title' => 'ASC' ) );
+
+		// 특성 필터 — 카테고리 안에 머문 채로 걸러냅니다
+		// 예) /products/category/paint-interior/?cp_feature=latex
+		$feature = isset( $_GET['cp_feature'] ) ? sanitize_title( wp_unslash( $_GET['cp_feature'] ) ) : '';
+
+		if ( $feature && term_exists( $feature, 'product_feature' ) ) {
+			$tax_query   = (array) $query->get( 'tax_query' );
+			$tax_query[] = array(
+				'taxonomy' => 'product_feature',
+				'field'    => 'slug',
+				'terms'    => $feature,
+			);
+			$query->set( 'tax_query', $tax_query );
+		}
 	}
 
 	// 시공사례 목록 — 최신순 12개씩

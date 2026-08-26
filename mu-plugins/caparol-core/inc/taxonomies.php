@@ -14,6 +14,24 @@ add_action( 'init', 'caparol_register_taxonomies' );
 
 function caparol_register_taxonomies() {
 
+	/* 제품 특성 — 습윤마모 1등급 · 미네랄 · 라텍스 · 곰팡이 방지 · 차단
+	 *
+	 * 이건 "계층"이 아니라 "속성"입니다. 한 제품이 여러 개를 가질 수 있습니다.
+	 * 그래서 메뉴에는 넣지 않고, 제품 목록 화면의 필터로만 씁니다.
+	 * publicly_queryable = false : 이 분류만의 목록 주소는 만들지 않습니다.
+	 *   (/products/category/xxx/?cp_feature=latex 형태로 카테고리 안에서 걸러집니다)
+	 */
+	register_taxonomy( 'product_feature', 'product', array(
+		'labels'             => caparol_tax_labels( '제품 특성' ),
+		'hierarchical'       => false,
+		'public'             => false,
+		'publicly_queryable' => false,
+		'show_ui'            => true,
+		'show_admin_column'  => true,
+		'show_in_nav_menus'  => false,
+		'show_in_rest'       => true,
+	) );
+
 	/* 제품 카테고리 — 외단열시스템 / 외부도료 / 내부도료 / 미장·스타코 / 장식마감 */
 	register_taxonomy( 'product_cat', 'product', array(
 		'labels'            => caparol_tax_labels( '제품 카테고리' ),
@@ -143,4 +161,72 @@ function caparol_seed_terms() {
 	}
 
 	update_option( 'caparol_terms_seeded', 1 );
+}
+
+/* ══════════════════════════════════════════════════════════
+   2차 시드 — 하위 카테고리와 제품 특성
+
+   1차 시드(caparol_terms_seeded)는 이미 실행됐으므로
+   새로 추가되는 항목은 별도 옵션 키로 한 번만 더 실행합니다.
+   ══════════════════════════════════════════════════════════ */
+add_action( 'init', 'caparol_seed_terms_v2', 21 );
+
+function caparol_seed_terms_v2() {
+
+	if ( get_option( 'caparol_terms_seeded_v2' ) ) {
+		return;
+	}
+
+	/* ── 하위 제품 카테고리 ──────────────────────────────
+	   '부모슬러그' => array( '이름' => '슬러그', … )
+	   부모가 없으면 건너뜁니다. */
+	$children = array(
+		'paint' => array(
+			'인테리어 페인트' => 'paint-interior',
+			'외장 페인트'     => 'paint-exterior',
+		),
+		'primer' => array(
+			'프라이머'    => 'primer-base',
+			'외벽 발수제' => 'water-repellent',
+		),
+		'plaster' => array(
+			'외장 플라스터' => 'plaster-exterior',
+			'내장 플라스터' => 'plaster-interior',
+			'퍼티'          => 'putty',
+		),
+	);
+
+	foreach ( $children as $parent_slug => $terms ) {
+
+		$parent = get_term_by( 'slug', $parent_slug, 'product_cat' );
+		if ( ! $parent || is_wp_error( $parent ) ) {
+			continue;
+		}
+
+		foreach ( $terms as $name => $slug ) {
+			if ( ! term_exists( $slug, 'product_cat' ) ) {
+				wp_insert_term( $name, 'product_cat', array(
+					'slug'   => $slug,
+					'parent' => $parent->term_id,
+				) );
+			}
+		}
+	}
+
+	/* ── 제품 특성 ─────────────────────────────────────── */
+	$features = array(
+		'습윤마모 1등급'    => 'wear-class-1',
+		'미네랄 · 실리케이트' => 'mineral',
+		'라텍스'            => 'latex',
+		'곰팡이 방지'       => 'anti-mould',
+		'차단'              => 'isolating',
+	);
+
+	foreach ( $features as $name => $slug ) {
+		if ( ! term_exists( $slug, 'product_feature' ) ) {
+			wp_insert_term( $name, 'product_feature', array( 'slug' => $slug ) );
+		}
+	}
+
+	update_option( 'caparol_terms_seeded_v2', 1 );
 }
