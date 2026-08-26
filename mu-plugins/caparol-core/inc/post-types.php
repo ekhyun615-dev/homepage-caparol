@@ -64,6 +64,23 @@ function caparol_register_post_types() {
 		'supports'            => array( 'title', 'excerpt', 'page-attributes' ),
 		'show_in_rest'        => true,
 	) );
+
+	/* ── 문의 접수 ───────────────────────────────────────── */
+	// 홈페이지 문의 폼으로 들어온 내용이 여기 쌓입니다.
+	// public => false : 이 글은 사이트에 절대 노출되지 않습니다. 관리자만 봅니다.
+	// 메일이 스팸함에 빠지거나 발송이 실패해도 문의가 사라지지 않게 하려는 장치입니다.
+	register_post_type( 'inquiry', array(
+		'labels' => caparol_pt_labels( '문의', '문의 접수' ),
+		'public'              => false,
+		'show_ui'             => true,
+		'show_in_menu'        => true,
+		'show_in_rest'        => false,
+		'menu_icon'           => 'dashicons-email-alt',
+		'menu_position'       => 24,
+		'supports'            => array( 'title', 'editor' ),
+		'capabilities'        => array( 'create_posts' => 'do_not_allow' ),  // 관리자도 손으로 추가하지 않습니다
+		'map_meta_cap'        => true,
+	) );
 }
 
 /**

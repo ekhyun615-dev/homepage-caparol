@@ -17,6 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 require_once get_stylesheet_directory() . '/inc/site-info.php';   // 회사 정보 (여기만 고치면 됩니다)
 require_once get_stylesheet_directory() . '/inc/footer.php';      // 푸터
 require_once get_stylesheet_directory() . '/inc/archive-parts.php'; // 목록 화면 부품 (카드·필터)
+require_once get_stylesheet_directory() . '/inc/contact-form.php';  // 문의 폼
 
 /* ──────────────────────────────────────────────
    스타일 로드
