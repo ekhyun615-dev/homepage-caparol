@@ -23,7 +23,7 @@ $i = caparol_info();
 
 		<header class="cl-head">
 			<h1 class="cl-head__title">문의하기</h1>
-			<p class="cl-head__desc">제품 견적, 샘플 신청, 기술 문의, 대리점 개설까지 — 무엇이든 문의해 주세요. 담당자가 직접 확인하고 답변드립니다.</p>
+			<p class="cl-head__desc">제품 견적, 샘플 신청, 기술 문의 — 무엇이든 남겨주세요. 담당자가 직접 확인하고 답변드립니다.</p>
 		</header>
 
 		<!-- 빠른 연락 -->

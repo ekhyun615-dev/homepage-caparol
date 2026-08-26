@@ -23,12 +23,31 @@ if ( ! defined( 'ABSPATH' ) ) {
 /** 문의 유형 — 값 => 화면에 보이는 이름 */
 function caparol_inquiry_types() {
 	return array(
-		'quote'   => '견적 문의',
-		'sample'  => '샘플 · 색상집 신청',
-		'tech'    => '기술 문의',
-		'partner' => '대리점 문의',
-		'etc'     => '기타',
+		'quote'  => '견적 문의',
+		'sample' => '샘플 · 색상집 신청',
+		'tech'   => '기술 문의',
+		'etc'    => '기타',
 	);
+}
+
+/**
+ * 관리자 목록에 유형 이름을 보여줄 때 씁니다.
+ * 나중에 유형을 빼더라도 이미 접수된 문의가 "—" 로 보이지 않도록,
+ * 지난 유형 이름을 여기서 함께 찾습니다.
+ */
+function caparol_inquiry_type_label( $key ) {
+
+	$types = caparol_inquiry_types();
+	if ( isset( $types[ $key ] ) ) {
+		return $types[ $key ];
+	}
+
+	// 지금은 쓰지 않는 유형 — 과거 접수분 표시용
+	$retired = array(
+		'partner' => '대리점 문의 (종료)',
+	);
+
+	return isset( $retired[ $key ] ) ? $retired[ $key ] : '—';
 }
 
 /**
@@ -351,9 +370,8 @@ add_filter( 'manage_inquiry_posts_columns', function ( $columns ) {
 add_action( 'manage_inquiry_posts_custom_column', function ( $column, $post_id ) {
 
 	if ( 'cq_type' === $column ) {
-		$types = caparol_inquiry_types();
-		$key   = get_post_meta( $post_id, 'cq_type', true );
-		echo esc_html( isset( $types[ $key ] ) ? $types[ $key ] : '—' );
+		$key = get_post_meta( $post_id, 'cq_type', true );
+		echo esc_html( caparol_inquiry_type_label( is_scalar( $key ) ? (string) $key : '' ) );
 		return;
 	}
 
