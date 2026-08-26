@@ -1080,6 +1080,187 @@ body.single-reference { background: var(--caparol-bg); }
 }
 
 /* ══════════════════════════════════════════════════════════
+   기술자료실 (archive-document.php / single-document.php)
+   ══════════════════════════════════════════════════════════ */
+
+body.post-type-archive-document .site-content .ast-container,
+body.tax-document_type .site-content .ast-container,
+body.single-document .site-content .ast-container { max-width: none; padding: 0; }
+body.post-type-archive-document #primary,
+body.tax-document_type #primary,
+body.single-document #primary { margin: 0; padding: 0; }
+body.post-type-archive-document,
+body.tax-document_type,
+body.single-document { background: var(--caparol-bg); }
+
+/* ── 시험성적서 우선 노출 블록 ─────────────────────── */
+.dl-featured {
+  margin: 2.5rem 0 3rem;
+  padding: 1.75rem;
+  background: var(--caparol-green-tint);
+  border-radius: var(--caparol-radius);
+}
+.dl-featured__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.dl-featured__desc {
+  margin: .375rem 0 1.25rem;
+  font-size: .875rem;
+  color: #4b5563;
+}
+.dl-featured .dl-item__link { background: #fff; }
+
+/* ── 자료 목록 ─────────────────────────────────────── */
+.dl-list { list-style: none; margin: 0; padding: 0; }
+.dl-list--all { padding-top: 2.5rem; }
+.dl-item + .dl-item { margin-top: .5rem; }
+
+.dl-item__link {
+  display: flex;
+  align-items: center;
+  gap: 1.125rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid var(--caparol-line);
+  border-radius: var(--caparol-radius);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .15s ease, background .15s ease;
+}
+.dl-item__link:hover {
+  border-color: var(--caparol-green);
+  background: var(--caparol-green-tint);
+  color: inherit;
+}
+.dl-featured .dl-item__link:hover { background: #fff; }
+
+/* 확장자 배지 */
+.dl-item__icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3rem;
+  padding: .375rem .5rem;
+  border-radius: 3px;
+  background: var(--caparol-ink);
+  color: #fff;
+  font-size: .6875rem;
+  font-weight: 800;
+  letter-spacing: .04em;
+}
+
+.dl-item__body { flex: 1 1 auto; min-width: 0; }
+.dl-item__title {
+  display: block;
+  font-size: .9375rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+.dl-item__note,
+.dl-item__meta {
+  display: block;
+  margin-top: .25rem;
+  font-size: .75rem;
+  color: var(--caparol-gray);
+  line-height: 1.5;
+}
+
+.dl-item__right {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: .875rem;
+}
+/* 줄이 여러 개 늘어서면 초록 밑줄이 자료 이름보다 눈에 띕니다.
+   평소에는 회색, 마우스를 올렸을 때 브랜드 그린으로 바뀝니다. */
+.dl-item__action {
+  font-size: .8125rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--caparol-gray);
+  border-bottom: 2px solid var(--caparol-line);
+  padding-bottom: 2px;
+  transition: color .15s ease, border-color .15s ease;
+}
+.dl-item__link:hover .dl-item__action {
+  color: var(--caparol-ink);
+  border-bottom-color: var(--caparol-green);
+}
+
+/* 유효기간 표시 */
+.dl-tag {
+  display: inline-block;
+  padding: .25rem .5rem;
+  border-radius: 3px;
+  font-size: .6875rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+.dl-tag--ok      { background: var(--caparol-bg-alt); color: var(--caparol-gray); }
+.dl-tag--soon    { background: #fff4e5; color: #92400e; }
+.dl-tag--expired { background: #fef2f2; color: #b91c1c; }
+
+/* 만료된 자료는 눈에 띄게 죽여둡니다 — 그래도 링크는 살아 있습니다 */
+.dl-item.is-expired .dl-item__link { border-color: #fecaca; }
+.dl-item.is-expired .dl-item__icon { background: #9ca3af; }
+
+.dl-note {
+  margin: 3rem 0 0;
+  padding-top: 2rem;
+  border-top: 1px solid var(--caparol-line);
+  font-size: .875rem;
+  color: var(--caparol-gray);
+}
+.dl-note a { color: var(--caparol-green-dark); font-weight: 700; }
+
+/* ── 자료 낱장 ─────────────────────────────────────── */
+.dl-single__in {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 3.5rem 1.5rem 4.5rem;
+}
+.dl-single__title {
+  margin: 0;
+  font-size: clamp(1.625rem, 3.5vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.03em;
+}
+.dl-single__note {
+  margin: 1.125rem 0 0;
+  font-size: 1rem;
+  line-height: 1.75;
+  color: #374151;
+}
+.dl-single__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin: 2rem 0 0;
+}
+
+/* ── 모바일 ────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .dl-featured { padding: 1.25rem; margin: 1.75rem 0 2.25rem; }
+  .dl-list--all { padding-top: 1.75rem; }
+
+  /* 좁은 화면에서는 세로로 접습니다 */
+  .dl-item__link { flex-wrap: wrap; gap: .75rem 1rem; padding: 1rem; }
+  .dl-item__body { flex: 1 1 60%; }
+  .dl-item__right {
+    flex: 1 1 100%;
+    justify-content: flex-start;
+    gap: .75rem;
+    padding-left: 3.75rem;
+  }
+  .dl-single__in { padding: 2.5rem 1.25rem 3rem; }
+  .dl-single__actions .cp-btn { flex: 1 1 10rem; }
+}
+
+/* ══════════════════════════════════════════════════════════
    푸터 (inc/footer.php)
 
    Astra 기본 푸터는 숨기고 자식 테마가 직접 그립니다.

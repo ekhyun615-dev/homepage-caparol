@@ -17,7 +17,8 @@ get_header();
 		caparol_archive_head(
 			'시공사례',
 			'국내외 현장에서 Caparol 제품이 어떻게 쓰였는지 확인하실 수 있습니다.',
-			(int) $GLOBALS['wp_query']->found_posts
+			(int) $GLOBALS['wp_query']->found_posts,
+			'건'
 		);
 
 		caparol_ref_filter( 0, 0 );

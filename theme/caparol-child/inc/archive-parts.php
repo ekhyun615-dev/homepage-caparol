@@ -15,7 +15,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * 목록 상단 — 제목 + 설명 + 개수
  */
-function caparol_archive_head( $title, $desc = '', $count = null ) {
+function caparol_archive_head( $title, $desc = '', $count = null, $unit = '개 제품' ) {
 	?>
 	<header class="cl-head">
 		<h1 class="cl-head__title"><?php echo esc_html( $title ); ?></h1>
@@ -23,7 +23,7 @@ function caparol_archive_head( $title, $desc = '', $count = null ) {
 			<p class="cl-head__desc"><?php echo esc_html( $desc ); ?></p>
 		<?php endif; ?>
 		<?php if ( null !== $count ) : ?>
-			<p class="cl-head__count">총 <strong><?php echo (int) $count; ?></strong>개 제품</p>
+			<p class="cl-head__count">총 <strong><?php echo (int) $count; ?></strong><?php echo esc_html( $unit ); ?></p>
 		<?php endif; ?>
 	</header>
 	<?php

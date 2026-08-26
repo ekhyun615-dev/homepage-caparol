@@ -23,7 +23,7 @@ function caparol_render_reference_taxonomy() {
 		<div class="cl__in">
 
 			<?php
-			caparol_archive_head( $name, $desc, (int) $GLOBALS['wp_query']->found_posts );
+			caparol_archive_head( $name, $desc, (int) $GLOBALS['wp_query']->found_posts, '건' );
 			caparol_ref_filter( $region, $type );
 			?>
 

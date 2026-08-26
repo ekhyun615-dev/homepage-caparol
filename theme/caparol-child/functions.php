@@ -20,6 +20,7 @@ require_once get_stylesheet_directory() . '/inc/archive-parts.php'; // 목록 �
 require_once get_stylesheet_directory() . '/inc/contact-form.php';  // 문의 폼
 require_once get_stylesheet_directory() . '/inc/reference-parts.php';    // 시공사례 부품
 require_once get_stylesheet_directory() . '/inc/reference-archive.php';  // 시공사례 분류별 목록
+require_once get_stylesheet_directory() . '/inc/document-parts.php';     // 기술자료 부품
 
 /**
  * 사용자 정의 필드를 문자열로 안전하게 읽습니다.
@@ -287,6 +288,12 @@ add_action( 'pre_get_posts', function ( $query ) {
 		|| $query->is_tax( array( 'reference_region', 'reference_type' ) ) ) {
 		$query->set( 'posts_per_page', 12 );
 	}
+
+	// 기술자료 — 한 줄짜리 목록이라 넉넉히, 순서 값 → 제목 순
+	if ( $query->is_post_type_archive( 'document' ) || $query->is_tax( 'document_type' ) ) {
+		$query->set( 'posts_per_page', 30 );
+		$query->set( 'orderby', array( 'menu_order' => 'ASC', 'title' => 'ASC' ) );
+	}
 } );
 
 /* ──────────────────────────────────────────────
@@ -305,27 +312,19 @@ add_action( 'manage_document_posts_custom_column', function ( $column, $post_id 
 	if ( 'valid_until' !== $column ) {
 		return;
 	}
-	if ( ! function_exists( 'get_field' ) ) {
-		return;
-	}
+	// 앞화면과 같은 판정 함수를 씁니다 (ACF 가 없어도 동작)
+	$exp = caparol_doc_expiry( $post_id );
 
-	$raw = get_field( 'valid_until', $post_id, false ); // Ymd 원본으로 받기
-	if ( ! $raw ) {
+	if ( 'none' === $exp['state'] ) {
 		echo '<span style="color:#999">—</span>';
 		return;
 	}
-
-	$expires = strtotime( $raw );
-	$today   = current_time( 'timestamp' );
-	$days    = floor( ( $expires - $today ) / DAY_IN_SECONDS );
-	$date    = date_i18n( 'Y-m-d', $expires );
-
-	if ( $days < 0 ) {
-		printf( '<strong style="color:#d63638">%s · 만료됨</strong>', esc_html( $date ) );
-	} elseif ( $days <= 60 ) {
-		printf( '<strong style="color:#b26200">%s · %d일 남음</strong>', esc_html( $date ), (int) $days );
+	if ( 'expired' === $exp['state'] ) {
+		printf( '<strong style="color:#d63638">%s · 만료됨</strong>', esc_html( $exp['date'] ) );
+	} elseif ( 'soon' === $exp['state'] ) {
+		printf( '<strong style="color:#b26200">%s · %s</strong>', esc_html( $exp['date'] ), esc_html( $exp['label'] ) );
 	} else {
-		printf( '<span>%s</span>', esc_html( $date ) );
+		printf( '<span>%s</span>', esc_html( $exp['date'] ) );
 	}
 }, 10, 2 );
 
