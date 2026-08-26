@@ -16,6 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
    ────────────────────────────────────────────── */
 require_once get_stylesheet_directory() . '/inc/site-info.php';   // 회사 정보 (여기만 고치면 됩니다)
 require_once get_stylesheet_directory() . '/inc/footer.php';      // 푸터
+require_once get_stylesheet_directory() . '/inc/archive-parts.php'; // 목록 화면 부품 (카드·필터)
 
 /* ──────────────────────────────────────────────
    스타일 로드
@@ -219,7 +220,12 @@ add_filter( 'astra_the_title_enabled', function ( $enabled ) {
 
 /* Elementor가 콘텐츠 폭을 직접 제어하도록 — 좌우 여백 중복 방지 */
 add_filter( 'astra_page_layout', function ( $layout ) {
-	if ( is_singular( array( 'product', 'reference', 'color', 'document' ) ) ) {
+	$types = array( 'product', 'reference', 'color', 'document' );
+
+	if ( is_singular( $types ) || is_post_type_archive( $types ) ) {
+		return 'no-sidebar';
+	}
+	if ( is_tax( array( 'product_cat', 'reference_type', 'reference_region', 'color_family', 'document_type' ) ) ) {
 		return 'no-sidebar';
 	}
 	return $layout;
@@ -245,8 +251,21 @@ add_action( 'wp_dashboard_setup', function () {
 
 /* 검색 결과에서 색상·기술자료는 제외 (제품·시공사례만 노출) */
 add_action( 'pre_get_posts', function ( $query ) {
-	if ( ! is_admin() && $query->is_main_query() && $query->is_search() ) {
+
+	if ( is_admin() || ! $query->is_main_query() ) {
+		return;
+	}
+
+	// 검색에 제품·시공사례도 포함
+	if ( $query->is_search() ) {
 		$query->set( 'post_type', array( 'post', 'page', 'product', 'reference' ) );
+		return;
+	}
+
+	// 제품 목록 — 3열 그리드에 맞춰 12개씩, 등록 순서(메뉴 순서)대로
+	if ( $query->is_post_type_archive( 'product' ) || $query->is_tax( 'product_cat' ) ) {
+		$query->set( 'posts_per_page', 12 );
+		$query->set( 'orderby', array( 'menu_order' => 'ASC', 'title' => 'ASC' ) );
 	}
 } );
 

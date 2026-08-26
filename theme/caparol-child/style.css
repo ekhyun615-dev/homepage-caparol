@@ -122,6 +122,223 @@ a { color: var(--caparol-green-dark); }
 .caparol-specs-wrap { overflow-x: auto; }
 
 /* ══════════════════════════════════════════════════════════
+   제품 목록 (archive-product.php / taxonomy-product_cat.php)
+   ══════════════════════════════════════════════════════════ */
+
+/* Astra 기본 본문 여백 제거 — 여백은 이 파일이 전담합니다 */
+body.post-type-archive-product .site-content .ast-container,
+body.tax-product_cat .site-content .ast-container { max-width: none; padding: 0; }
+body.post-type-archive-product #primary,
+body.tax-product_cat #primary { margin: 0; padding: 0; }
+body.post-type-archive-product,
+body.tax-product_cat { background: var(--caparol-bg); }
+
+.cl__in {
+  max-width: var(--caparol-max);
+  margin: 0 auto;
+  padding: 3rem 1.5rem 4.5rem;
+}
+
+/* ── 목록 상단 ─────────────────────────────────────── */
+.cl-head { padding-bottom: 2rem; }
+.cl-head__title {
+  margin: 0;
+  font-size: clamp(1.875rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+}
+.cl-head__title::after {
+  content: "";
+  display: block;
+  width: 3rem;
+  height: 4px;
+  margin-top: 1.125rem;
+  background: var(--caparol-green);
+  border-radius: 2px;
+}
+.cl-head__desc {
+  margin: 1.25rem 0 0;
+  max-width: 44rem;
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: #374151;
+}
+.cl-head__count {
+  margin: 1rem 0 0;
+  font-size: .8125rem;
+  color: var(--caparol-gray);
+}
+.cl-head__count strong { color: var(--caparol-ink); }
+
+/* ── 카테고리 필터 ─────────────────────────────────── */
+.cl-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  padding: 0 0 2.5rem;
+  border-bottom: 1px solid var(--caparol-line);
+}
+.cl-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4375rem;
+  padding: .5625rem 1rem;
+  border: 1px solid var(--caparol-line);
+  border-radius: 999px;
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--caparol-ink);
+  text-decoration: none;
+  background: #fff;
+  transition: border-color .15s ease, background .15s ease;
+}
+.cl-chip:hover { border-color: var(--caparol-green); color: var(--caparol-ink); }
+/* 밝은 그린 위에는 어두운 글씨 (대비 기준) */
+.cl-chip.is-active {
+  background: var(--caparol-green);
+  border-color: var(--caparol-green);
+  color: var(--caparol-ink);
+}
+.cl-chip__n {
+  font-size: .6875rem;
+  font-weight: 700;
+  color: var(--caparol-gray);
+}
+.cl-chip.is-active .cl-chip__n { color: #3d5207; }
+
+/* ── 카드 그리드 ───────────────────────────────────── */
+.cl-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2.5rem 2rem;
+  padding-top: 2.5rem;
+}
+
+.cl-card__link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.cl-card__media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--caparol-radius);
+  background: var(--caparol-bg-alt);
+}
+.cl-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .35s ease;
+}
+.cl-card__img--empty { background: var(--caparol-bg-alt); }
+.cl-card__link:hover .cl-card__img { transform: scale(1.04); }
+
+.cl-card__body { padding-top: 1.125rem; }
+
+.cl-card__cat {
+  margin: 0 0 .4375rem;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  color: var(--caparol-green-dark);
+}
+.cl-card__title {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+}
+.cl-card__summary {
+  margin: .5rem 0 0;
+  font-size: .875rem;
+  line-height: 1.7;
+  color: var(--caparol-gray);
+}
+/* 카드가 9장 늘어서면 초록 밑줄이 제품명보다 눈에 띕니다.
+   평소에는 회색, 마우스를 올렸을 때만 브랜드 그린으로 바뀝니다. */
+.cl-card__more {
+  display: inline-block;
+  margin-top: .875rem;
+  padding-bottom: 2px;
+  font-size: .8125rem;
+  font-weight: 700;
+  color: var(--caparol-gray);
+  border-bottom: 2px solid var(--caparol-line);
+  transition: color .15s ease, border-color .15s ease;
+}
+.cl-card__link:hover .cl-card__more {
+  color: var(--caparol-ink);
+  border-bottom-color: var(--caparol-green);
+}
+
+/* ── 비어 있을 때 ──────────────────────────────────── */
+.cl-empty {
+  margin: 4rem 0;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  color: var(--caparol-gray);
+  background: var(--caparol-bg-alt);
+  border-radius: var(--caparol-radius);
+}
+
+/* ── 페이지 넘김 ───────────────────────────────────── */
+.cl-pager {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: .375rem;
+  margin-top: 3.5rem;
+}
+.cl-pager .page-numbers {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  height: 2.5rem;
+  padding: 0 .75rem;
+  border: 1px solid var(--caparol-line);
+  border-radius: var(--caparol-radius);
+  font-size: .875rem;
+  font-weight: 600;
+  color: var(--caparol-ink);
+  text-decoration: none;
+}
+.cl-pager a.page-numbers:hover { border-color: var(--caparol-green); }
+.cl-pager .page-numbers.current {
+  background: var(--caparol-green);
+  border-color: var(--caparol-green);
+  color: var(--caparol-ink);
+}
+.cl-pager .page-numbers.dots { border-color: transparent; }
+
+/* ── 태블릿 ────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .cl-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ── 모바일 ────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .cl__in { padding: 2rem 1.25rem 3rem; }
+  .cl-head { padding-bottom: 1.5rem; }
+  .cl-head__desc { font-size: 1rem; margin-top: 1rem; }
+  .cl-filter { padding-bottom: 1.75rem; gap: .4375rem; }
+  .cl-chip { padding: .5rem .875rem; font-size: .8125rem; }
+  .cl-grid { gap: 1.75rem 1rem; padding-top: 1.75rem; }
+  .cl-card__body { padding-top: .875rem; }
+  .cl-card__title { font-size: 1rem; }
+  /* 좁은 화면에서 카드 두 장을 나란히 두려면 요약문은 접습니다 */
+  .cl-card__summary,
+  .cl-card__more { display: none; }
+  .cl-pager { margin-top: 2.5rem; }
+}
+
+/* ══════════════════════════════════════════════════════════
    푸터 (inc/footer.php)
 
    Astra 기본 푸터는 숨기고 자식 테마가 직접 그립니다.
