@@ -576,6 +576,334 @@ textarea.cq-input { resize: vertical; min-height: 9rem; }
 }
 
 /* ══════════════════════════════════════════════════════════
+   홈 화면 (front-page.php)
+   ══════════════════════════════════════════════════════════ */
+
+body.home .site-content .ast-container { max-width: none; padding: 0; }
+body.home #primary { margin: 0; padding: 0; }
+body.home { background: var(--caparol-bg); }
+/* 홈에서는 제목·사이드바를 쓰지 않습니다 */
+body.home .entry-header, body.home .ast-archive-description { display: none; }
+
+.fp-section__in,
+.fp-hero__in,
+.fp-stats__in,
+.fp-cta__in {
+  max-width: var(--caparol-max);
+  margin: 0 auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+/* ── 1. 히어로 ─────────────────────────────────────── */
+.fp-hero {
+  padding: 6rem 0 5.5rem;
+  background: var(--caparol-bg);
+}
+.fp-hero__in { max-width: 60rem; }
+
+.fp-hero__lead {
+  margin: 0 0 1.25rem;
+  font-size: .8125rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--caparol-green-dark);
+}
+.fp-hero__title {
+  margin: 0;
+  font-size: clamp(2.25rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.18;
+  letter-spacing: -0.035em;
+}
+.fp-hero__text {
+  margin: 1.75rem 0 0;
+  max-width: 38rem;
+  font-size: 1.125rem;
+  line-height: 1.75;
+  color: #374151;
+}
+.fp-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin: 2.5rem 0 0;
+}
+
+/* 대표 이미지를 넣었을 때 — 사진 위에 흰 글씨 */
+.fp-hero--photo {
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+}
+/* 사진이 밝아도 글씨가 읽히도록 어두운 막을 깝니다 */
+.fp-hero--photo::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.45) 60%, rgba(0,0,0,.25) 100%);
+}
+.fp-hero--photo .fp-hero__in { position: relative; }
+.fp-hero--photo .fp-hero__lead { color: var(--caparol-green); }
+.fp-hero--photo .fp-hero__text { color: #e5e7eb; }
+.fp-hero--photo .cp-btn--ghost { color: #fff; border-color: rgba(255,255,255,.55); }
+.fp-hero--photo .cp-btn--ghost:hover { border-color: #fff; background: rgba(255,255,255,.1); }
+
+/* ── 2. 신뢰 지표 ──────────────────────────────────── */
+.fp-stats {
+  background: var(--caparol-ink);
+  color: #fff;
+  padding: 2.75rem 0;
+}
+.fp-stats__in {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+.fp-stat { text-align: center; }
+.fp-stat__num {
+  display: block;
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--caparol-green);
+}
+.fp-stat__label {
+  display: block;
+  margin-top: .375rem;
+  font-size: .8125rem;
+  color: #d1d5db;
+}
+
+/* ── 공통 섹션 ─────────────────────────────────────── */
+.fp-section { padding: 5rem 0; }
+.fp-section--alt { background: var(--caparol-bg-alt); }
+
+.fp-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: .5rem 1.25rem;
+  margin-bottom: 2.5rem;
+}
+.fp-head__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+.fp-head__desc {
+  margin: 0;
+  font-size: .9375rem;
+  color: var(--caparol-gray);
+}
+.fp-head__more {
+  margin-left: auto;
+  font-size: .875rem;
+  font-weight: 700;
+  color: var(--caparol-ink);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 2px solid var(--caparol-green);
+  padding-bottom: 2px;
+}
+.fp-head__more:hover { color: var(--caparol-green-dark); }
+
+/* ── 3. 제품 카테고리 ──────────────────────────────── */
+.fp-cats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+}
+.fp-cat a {
+  display: block;
+  height: 100%;
+  padding: 1.625rem 1.375rem;
+  border: 1px solid var(--caparol-line);
+  border-radius: var(--caparol-radius);
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color .15s ease, transform .15s ease;
+}
+.fp-cat a:hover {
+  border-color: var(--caparol-green);
+  transform: translateY(-2px);
+  color: inherit;
+}
+.fp-cat__name {
+  display: block;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+}
+.fp-cat__n {
+  display: block;
+  margin-top: .5rem;
+  font-size: .75rem;
+  color: var(--caparol-gray);
+}
+
+/* ── 4. 시공사례 ───────────────────────────────────── */
+.fp-refs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 2rem 1.5rem;
+}
+.fp-ref a { display: block; text-decoration: none; color: inherit; }
+.fp-ref__media {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: var(--caparol-radius);
+  background: #e5e7eb;
+}
+.fp-ref__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .35s ease;
+}
+.fp-ref a:hover .fp-ref__media img { transform: scale(1.04); }
+.fp-ref__title {
+  display: block;
+  margin-top: .875rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+.fp-ref__meta {
+  display: block;
+  margin-top: .25rem;
+  font-size: .8125rem;
+  color: var(--caparol-gray);
+}
+
+/* ── 5. 기술자료 ───────────────────────────────────── */
+.fp-docs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem;
+}
+.fp-doc a {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  padding: 1.125rem 1.25rem;
+  border: 1px solid var(--caparol-line);
+  border-radius: var(--caparol-radius);
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  font-weight: 600;
+  font-size: .9375rem;
+  transition: border-color .15s ease, background .15s ease;
+}
+.fp-doc a::before {
+  content: "↓";
+  flex: 0 0 auto;
+  font-weight: 800;
+  color: var(--caparol-green-dark);
+}
+.fp-doc a:hover { border-color: var(--caparol-green); background: var(--caparol-green-tint); color: inherit; }
+
+/* ── 6. 공지사항 ───────────────────────────────────── */
+.fp-news { list-style: none; margin: 0; padding: 0; }
+.fp-news__item + .fp-news__item { border-top: 1px solid var(--caparol-line); }
+.fp-news__item a {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1.125rem .25rem;
+  text-decoration: none;
+  color: inherit;
+}
+.fp-news__item a:hover .fp-news__title { color: var(--caparol-green-dark); }
+.fp-news__title { flex: 1 1 auto; font-size: .9375rem; font-weight: 600; }
+.fp-news__date { flex: 0 0 auto; font-size: .8125rem; color: var(--caparol-gray); }
+
+/* ── 7. 문의 CTA ───────────────────────────────────── */
+.fp-cta {
+  padding: 5.5rem 0;
+  text-align: center;
+  background: var(--caparol-green-tint);
+}
+.fp-cta__in { max-width: 44rem; }
+.fp-cta__lead {
+  margin: 0 0 .75rem;
+  font-size: .8125rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--caparol-green-dark);
+}
+.fp-cta__title {
+  margin: 0 0 2.25rem;
+  font-size: clamp(1.625rem, 3.5vw, 2.25rem);
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+.fp-cta__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  justify-content: center;
+  margin: 0;
+}
+
+/* ── 태블릿 ────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .fp-cats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .fp-refs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* ── 모바일 ────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .fp-section__in, .fp-hero__in, .fp-stats__in, .fp-cta__in {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+  .fp-hero { padding: 3.5rem 0 3rem; }
+  .fp-hero__text { font-size: 1.0625rem; margin-top: 1.25rem; }
+  .fp-hero__actions { margin-top: 2rem; }
+  .fp-hero__actions .cp-btn { flex: 1 1 9rem; }
+
+  .fp-stats { padding: 2rem 0; }
+  .fp-stats__in { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 1rem; }
+  .fp-stat__num { font-size: 1.5rem; }
+
+  .fp-section { padding: 3.25rem 0; }
+  .fp-head { margin-bottom: 1.75rem; }
+  .fp-head__more { margin-left: 0; }
+
+  .fp-cats { grid-template-columns: minmax(0, 1fr); gap: .625rem; }
+  .fp-cat a { padding: 1.125rem 1.25rem; }
+  .fp-cat__name { font-size: 1rem; }
+
+  .fp-refs { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 1rem; }
+  .fp-ref__title { font-size: .9375rem; margin-top: .75rem; }
+
+  .fp-docs { grid-template-columns: minmax(0, 1fr); }
+
+  .fp-news__item a { flex-wrap: wrap; gap: .25rem; padding: 1rem .25rem; }
+  .fp-news__title { flex-basis: 100%; }
+
+  .fp-cta { padding: 3.5rem 0; }
+  .fp-cta__actions .cp-btn { flex: 1 1 9rem; }
+}
+
+/* ══════════════════════════════════════════════════════════
    푸터 (inc/footer.php)
 
    Astra 기본 푸터는 숨기고 자식 테마가 직접 그립니다.
