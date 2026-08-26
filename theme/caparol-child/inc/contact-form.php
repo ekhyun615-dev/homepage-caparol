@@ -47,6 +47,20 @@ function caparol_inquiry_type_label( $key ) {
 }
 
 /**
+ * ⚠️ 입력칸 이름에는 반드시 cq_ 접두어를 붙입니다. 이유가 있습니다.
+ *
+ * 워드프레스는 POST 로 들어온 값 중 name, s, p, page, cat, author 같은
+ * "공개 질의 변수" 를 주소 해석에 그대로 씁니다.
+ * 그래서 입력칸 이름이 name 이면, 문의를 보낼 때 워드프레스가
+ * "슬러그가 홍길동인 글을 찾아라" 로 알아듣고 404 를 냅니다.
+ *
+ * 접두어를 붙이면 절대 겹치지 않습니다.
+ */
+function cq_field_name( $key ) {
+	return 'cq_' . $key;
+}
+
+/**
  * 폼 처리 중 생긴 오류와 사용자가 입력한 값을 담아둡니다.
  * 제출 처리(template_redirect)와 화면 그리기가 서로 다른 시점에 일어나므로
  * 값을 여기에 잠시 보관합니다.
@@ -108,14 +122,14 @@ function caparol_handle_contact_submit() {
 
 	// ── 입력값 정리 ──────────────────────────────────
 	$in = array(
-		'type'    => isset( $_POST['type'] ) ? sanitize_text_field( wp_unslash( $_POST['type'] ) ) : '',
-		'name'    => isset( $_POST['name'] ) ? sanitize_text_field( wp_unslash( $_POST['name'] ) ) : '',
-		'company' => isset( $_POST['company'] ) ? sanitize_text_field( wp_unslash( $_POST['company'] ) ) : '',
-		'phone'   => isset( $_POST['phone'] ) ? sanitize_text_field( wp_unslash( $_POST['phone'] ) ) : '',
-		'email'   => isset( $_POST['email'] ) ? sanitize_email( wp_unslash( $_POST['email'] ) ) : '',
-		'site'    => isset( $_POST['site'] ) ? sanitize_text_field( wp_unslash( $_POST['site'] ) ) : '',
-		'message' => isset( $_POST['message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['message'] ) ) : '',
-		'agree'   => ! empty( $_POST['agree'] ),
+		'type'    => isset( $_POST['cq_type'] ) ? sanitize_text_field( wp_unslash( $_POST['cq_type'] ) ) : '',
+		'name'    => isset( $_POST['cq_name'] ) ? sanitize_text_field( wp_unslash( $_POST['cq_name'] ) ) : '',
+		'company' => isset( $_POST['cq_company'] ) ? sanitize_text_field( wp_unslash( $_POST['cq_company'] ) ) : '',
+		'phone'   => isset( $_POST['cq_phone'] ) ? sanitize_text_field( wp_unslash( $_POST['cq_phone'] ) ) : '',
+		'email'   => isset( $_POST['cq_email'] ) ? sanitize_email( wp_unslash( $_POST['cq_email'] ) ) : '',
+		'site'    => isset( $_POST['cq_site'] ) ? sanitize_text_field( wp_unslash( $_POST['cq_site'] ) ) : '',
+		'message' => isset( $_POST['cq_message'] ) ? sanitize_textarea_field( wp_unslash( $_POST['cq_message'] ) ) : '',
+		'agree'   => ! empty( $_POST['cq_agree'] ),
 	);
 	$GLOBALS['caparol_form']['old'] = $in;
 
@@ -213,8 +227,9 @@ function caparol_field( $name, $label, $args = array() ) {
 		'autocomplete'=> '',
 	) );
 
-	$err = caparol_form_error( $name );
-	$id  = 'cq-' . $name;
+	$err   = caparol_form_error( $name );
+	$id    = 'cq-' . $name;
+	$field = cq_field_name( $name );   // 실제 전송되는 이름 (cq_ 접두어)
 	?>
 	<p class="cq-field<?php echo $err ? ' has-error' : ''; ?>">
 		<label class="cq-label" for="<?php echo esc_attr( $id ); ?>">
@@ -223,11 +238,11 @@ function caparol_field( $name, $label, $args = array() ) {
 		</label>
 
 		<?php if ( 'textarea' === $a['type'] ) : ?>
-			<textarea class="cq-input" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>"
+			<textarea class="cq-input" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $field ); ?>"
 				rows="7" placeholder="<?php echo esc_attr( $a['placeholder'] ); ?>"
 				<?php echo $a['required'] ? 'required' : ''; ?>><?php echo esc_textarea( caparol_form_old( $name ) ); ?></textarea>
 		<?php else : ?>
-			<input class="cq-input" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $name ); ?>"
+			<input class="cq-input" id="<?php echo esc_attr( $id ); ?>" name="<?php echo esc_attr( $field ); ?>"
 				type="<?php echo esc_attr( $a['type'] ); ?>"
 				value="<?php echo esc_attr( caparol_form_old( $name ) ); ?>"
 				placeholder="<?php echo esc_attr( $a['placeholder'] ); ?>"
@@ -294,7 +309,7 @@ function caparol_contact_form() {
 				<div class="cq-types">
 					<?php foreach ( $types as $value => $label ) : ?>
 						<label class="cq-type">
-							<input type="radio" name="type" value="<?php echo esc_attr( $value ); ?>"
+							<input type="radio" name="cq_type" value="<?php echo esc_attr( $value ); ?>"
 								<?php checked( caparol_form_old( 'type' ), $value ); ?>>
 							<span><?php echo esc_html( $label ); ?></span>
 						</label>
@@ -331,7 +346,7 @@ function caparol_contact_form() {
 			<?php $agree_err = caparol_form_error( 'agree' ); ?>
 			<div class="cq-field cq-field--full<?php echo $agree_err ? ' has-error' : ''; ?>">
 				<label class="cq-agree">
-					<input type="checkbox" name="agree" value="1" <?php checked( (bool) caparol_form_old( 'agree' ) ); ?>>
+					<input type="checkbox" name="cq_agree" value="1" <?php checked( (bool) caparol_form_old( 'agree' ) ); ?>>
 					<span>
 						개인정보 수집·이용에 동의합니다. <span class="cq-req" aria-hidden="true">*</span>
 						<small>수집 항목: 이름, 연락처, 이메일, 회사명, 현장 위치 · 이용 목적: 문의 답변 및 상담 · 보유 기간: 문의 처리 완료 후 3년</small>
