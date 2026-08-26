@@ -42,12 +42,8 @@ function caparol_inquiry_type_label( $key ) {
 		return $types[ $key ];
 	}
 
-	// 지금은 쓰지 않는 유형 — 과거 접수분 표시용
-	$retired = array(
-		'partner' => '대리점 문의 (종료)',
-	);
-
-	return isset( $retired[ $key ] ) ? $retired[ $key ] : '—';
+	// 지금은 쓰지 않는 유형이 과거 접수분에 남아 있으면 저장된 값을 그대로 보여줍니다
+	return '' !== $key ? $key : '—';
 }
 
 /**

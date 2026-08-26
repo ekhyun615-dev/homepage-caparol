@@ -70,7 +70,6 @@ function caparol_render_footer() {
 					'시공사례'     => '/references/',
 					'기술자료실'   => '/downloads/',
 					'색상'         => '/colors/',
-					'대리점 안내'  => '/partners/',
 				) );
 				?>
 			</nav>
