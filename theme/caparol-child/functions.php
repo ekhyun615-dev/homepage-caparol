@@ -272,6 +272,12 @@ add_action( 'pre_get_posts', function ( $query ) {
 		return;
 	}
 
+	/* 진단용 스위치 — 주소 뒤에 ?cp_nofilter=1 을 붙이면 아래 목록 설정을 전부 건너뜁니다.
+	   관리자로 로그인했을 때만 동작합니다. 화면이 그때만 정상이면 원인이 여기 있는 겁니다. */
+	if ( isset( $_GET['cp_nofilter'] ) && current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
 	// 검색에 제품·시공사례도 포함
 	if ( $query->is_search() ) {
 		$query->set( 'post_type', array( 'post', 'page', 'product', 'reference' ) );

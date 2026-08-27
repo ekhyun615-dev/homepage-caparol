@@ -145,3 +145,61 @@ function caparol_render_diagnostics() {
 	}
 	echo '</ul></div>';
 }
+
+/* ══════════════════════════════════════════════════════════
+   앞화면 질의 들여다보기
+
+   주소 뒤에 ?cp_debug=1 을 붙이면 화면 아래에 회색 상자가 붙습니다.
+   워드프레스가 그 주소를 어떻게 해석했는지 그대로 보여줍니다.
+   관리자로 로그인했을 때만 보입니다.
+
+   예) https://caparol.mycafe24.com/products/category/paint-interior/?cp_debug=1
+   ══════════════════════════════════════════════════════════ */
+add_action( 'wp_footer', 'caparol_front_debug', 999 );
+
+function caparol_front_debug() {
+
+	if ( ! isset( $_GET['cp_debug'] ) || ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	global $wp, $wp_query;
+
+	$obj  = get_queried_object();
+	$name = '(없음)';
+	if ( $obj instanceof WP_Term ) {
+		$name = 'WP_Term — ' . $obj->taxonomy . ' / ' . $obj->slug;
+	} elseif ( $obj instanceof WP_Post_Type ) {
+		$name = 'WP_Post_Type — ' . $obj->name;
+	} elseif ( $obj instanceof WP_Post ) {
+		$name = 'WP_Post — ' . $obj->post_type . ' / ' . $obj->post_name;
+	} elseif ( $obj ) {
+		$name = get_class( $obj );
+	}
+
+	$lines = array(
+		'요청 주소'       => isset( $wp->request ) ? $wp->request : '(없음)',
+		'걸린 주소 규칙'   => isset( $wp->matched_rule ) ? $wp->matched_rule : '(없음 — 규칙에 안 걸림)',
+		'해석된 질의'     => isset( $wp->matched_query ) ? $wp->matched_query : '(없음)',
+		'query_vars'     => wp_json_encode( $wp->query_vars, JSON_UNESCAPED_UNICODE ),
+		'is_404'         => $wp_query->is_404 ? 'TRUE  ← 404 처리됨' : 'false',
+		'is_tax'         => $wp_query->is_tax ? 'true' : 'false',
+		'is_post_type_archive' => $wp_query->is_post_type_archive ? 'true' : 'false',
+		'queried_object' => $name,
+		'found_posts'    => $wp_query->found_posts,
+		'post_count'     => $wp_query->post_count,
+		'실행된 SQL'      => $wp_query->request,
+	);
+
+	echo '<div style="position:relative;z-index:99999;margin:0;padding:20px;background:#111;color:#0f0;'
+		. 'font:12px/1.6 ui-monospace,Menlo,Consolas,monospace;overflow-x:auto">';
+	echo '<strong style="color:#fff">카파롤 진단 — 이 주소를 워드프레스가 어떻게 해석했는지 (관리자만 보임)</strong><br><br>';
+	foreach ( $lines as $k => $v ) {
+		printf(
+			'<span style="color:#888">%-22s</span> %s<br>',
+			esc_html( $k ),
+			esc_html( (string) $v )
+		);
+	}
+	echo '</div>';
+}
