@@ -4,7 +4,7 @@ Theme URI:    https://caparol.kr
 Description:  caparol.kr 자식 테마. 부모 테마(Astra) 업데이트에 영향받지 않도록 모든 커스터마이징은 여기에 작성합니다.
 Author:       Caparol Korea
 Template:     astra
-Version:      0.1.0
+Version:      0.2.0
 Text Domain:  caparol
 */
 
@@ -37,6 +37,90 @@ Text Domain:  caparol
   --caparol-radius: 4px;
   --caparol-max:    1200px;
 }
+
+/* ══════════════════════════════════════════════════════════
+   코드로 그리는 화면에서 Astra 레이아웃 무력화
+
+   이 화면들은 여백·너비를 이 파일이 전부 책임집니다.
+   Astra의 컨테이너 폭·좌우 여백·사이드바가 끼어들면
+   내용이 한쪽으로 쏠리거나 폭이 어긋납니다.
+   부모 테마를 이기려면 !important 가 필요합니다.
+   ══════════════════════════════════════════════════════════ */
+body.home,
+body.single-product,
+body.single-reference,
+body.single-document,
+body.post-type-archive-product,
+body.post-type-archive-reference,
+body.post-type-archive-document,
+body.tax-product_cat,
+body.tax-reference_region,
+body.tax-reference_type,
+body.tax-document_type,
+body.page-contact,
+body.page-about,
+body.page-privacy {
+  /* 화면 전체를 쓰되 내부 컨테이너가 폭을 정합니다 */
+}
+
+body.home .site-content > .ast-container,
+body.single-product .site-content > .ast-container,
+body.single-reference .site-content > .ast-container,
+body.single-document .site-content > .ast-container,
+body.post-type-archive-product .site-content > .ast-container,
+body.post-type-archive-reference .site-content > .ast-container,
+body.post-type-archive-document .site-content > .ast-container,
+body.tax-product_cat .site-content > .ast-container,
+body.tax-reference_region .site-content > .ast-container,
+body.tax-reference_type .site-content > .ast-container,
+body.tax-document_type .site-content > .ast-container,
+body.page-contact .site-content > .ast-container,
+body.page-about .site-content > .ast-container,
+body.page-privacy .site-content > .ast-container {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: block !important;
+}
+
+body.home #primary,
+body.single-product #primary,
+body.single-reference #primary,
+body.single-document #primary,
+body.post-type-archive-product #primary,
+body.post-type-archive-reference #primary,
+body.post-type-archive-document #primary,
+body.tax-product_cat #primary,
+body.tax-reference_region #primary,
+body.tax-reference_type #primary,
+body.tax-document_type #primary,
+body.page-contact #primary,
+body.page-about #primary,
+body.page-privacy #primary {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  flex: 1 1 100% !important;
+  border: 0 !important;
+}
+
+/* 사이드바가 남아 있으면 오른쪽에 빈 칸이 생겨 내용이 왼쪽으로 쏠립니다 */
+body.home #secondary,
+body.single-product #secondary,
+body.single-reference #secondary,
+body.single-document #secondary,
+body.post-type-archive-product #secondary,
+body.post-type-archive-reference #secondary,
+body.post-type-archive-document #secondary,
+body.tax-product_cat #secondary,
+body.tax-reference_region #secondary,
+body.tax-reference_type #secondary,
+body.tax-document_type #secondary,
+body.page-contact #secondary,
+body.page-about #secondary,
+body.page-privacy #secondary { display: none !important; }
 
 /* ── 타이포 ─────────────────────────────────── */
 body {

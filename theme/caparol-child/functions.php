@@ -38,11 +38,21 @@ function cp_meta( $key, $post_id = 0 ) {
    스타일 로드
    ────────────────────────────────────────────── */
 add_action( 'wp_enqueue_scripts', function () {
+
+	$file = get_stylesheet_directory() . '/style.css';
+
+	/* 버전을 "파일이 마지막으로 바뀐 시각"으로 씁니다.
+	   테마 버전(0.1.0)을 그대로 쓰면 style.css 를 아무리 새로 올려도
+	   주소가 style.css?ver=0.1.0 으로 똑같아서 브라우저와 캐시가
+	   예전 파일을 계속 씁니다. "안 바뀌어요" 의 흔한 원인입니다.
+	   파일 시각을 쓰면 올릴 때마다 주소가 저절로 달라집니다. */
+	$version = file_exists( $file ) ? (string) filemtime( $file ) : wp_get_theme()->get( 'Version' );
+
 	wp_enqueue_style(
 		'caparol-child',
 		get_stylesheet_directory_uri() . '/style.css',
 		array( 'astra-theme-css' ),                      // Astra 스타일 뒤에 로드
-		wp_get_theme()->get( 'Version' )
+		$version
 	);
 }, 20 );
 
