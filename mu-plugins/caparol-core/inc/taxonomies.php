@@ -176,7 +176,7 @@ add_action( 'init', 'caparol_seed_terms_v2', 21 );
 
 function caparol_seed_terms_v2() {
 
-	if ( get_option( 'caparol_terms_seeded_v2' ) ) {
+	if ( get_option( 'caparol_terms_seeded_v3' ) ) {
 		return;
 	}
 
@@ -216,8 +216,11 @@ function caparol_seed_terms_v2() {
 		}
 	}
 
-	/* ── 제품 특성 ─────────────────────────────────────── */
+	/* ── 제품 특성 ───────────────────────────────────────
+	   순서대로 만들어집니다. 필터 버튼도 이 순서로 나옵니다.
+	   친환경은 설계사가 자재를 고를 때 가장 먼저 거르는 조건이라 맨 앞에 둡니다. */
 	$features = array(
+		'친환경'            => 'eco',
 		'습윤마모 1등급'    => 'wear-class-1',
 		'미네랄 · 실리케이트' => 'mineral',
 		'라텍스'            => 'latex',
@@ -231,7 +234,7 @@ function caparol_seed_terms_v2() {
 		}
 	}
 
-	update_option( 'caparol_terms_seeded_v2', 1 );
+	update_option( 'caparol_terms_seeded_v3', 1 );
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -245,7 +248,7 @@ add_action( 'init', 'caparol_maybe_flush_rules', 99 );
 
 function caparol_maybe_flush_rules() {
 
-	$version = '3';   // 구조를 바꿀 때마다 올립니다
+	$version = '4';   // 구조를 바꿀 때마다 올립니다
 
 	if ( get_option( 'caparol_rules_version' ) === $version ) {
 		return;

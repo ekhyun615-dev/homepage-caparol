@@ -94,3 +94,36 @@ function caparol_seed_interior_paints() {
 
 	update_option( 'caparol_products_seeded_interior', 1 );
 }
+
+/* ══════════════════════════════════════════════════════════
+   특성 보강 — 이미 만들어진 제품에 특성을 덧붙입니다
+
+   '친환경' 특성을 나중에 추가했기 때문에, 카탈로그에서 근거가 확인된
+   제품에만 한 번 붙여줍니다. 기존 특성은 지우지 않고 더합니다.
+   ══════════════════════════════════════════════════════════ */
+add_action( 'init', 'caparol_seed_product_features_eco', 23 );
+
+function caparol_seed_product_features_eco() {
+
+	if ( get_option( 'caparol_products_eco_tagged' ) ) {
+		return;
+	}
+	if ( ! term_exists( 'eco', 'product_feature' ) ) {
+		return;   // 특성이 아직 안 만들어졌으면 다음 요청에서 다시 시도
+	}
+
+	/* 카탈로그에 친환경 근거가 명시된 제품만
+	   Indeko-Plus — E.L.F. Plus, 방부제 무첨가, CO₂ 절감, 알러지 인증 */
+	$slugs = array( 'indeko-plus' );
+
+	foreach ( $slugs as $slug ) {
+		$post = get_page_by_path( $slug, OBJECT, 'product' );
+		if ( ! $post ) {
+			continue;
+		}
+		// append = true : 기존 특성(습윤마모 1등급)을 지우지 않고 더합니다
+		wp_set_object_terms( $post->ID, array( 'eco' ), 'product_feature', true );
+	}
+
+	update_option( 'caparol_products_eco_tagged', 1 );
+}
