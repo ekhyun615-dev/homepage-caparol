@@ -10,7 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-add_action( 'init', 'caparol_register_taxonomies' );
+/* 우선순위 5 — 포스트 타입(기본 10)보다 먼저 등록합니다.
+   제품 주소가 /products/... 이고 카테고리 주소가 /products/category/... 라
+   두 규칙이 겹칠 수 있는데, 분류를 먼저 등록하면 카테고리 규칙이 앞에 놓입니다. */
+add_action( 'init', 'caparol_register_taxonomies', 5 );
 
 function caparol_register_taxonomies() {
 
@@ -229,4 +232,25 @@ function caparol_seed_terms_v2() {
 	}
 
 	update_option( 'caparol_terms_seeded_v2', 1 );
+}
+
+/* ══════════════════════════════════════════════════════════
+   주소 규칙 1회 자동 갱신
+
+   분류·포스트 타입을 바꾸면 [설정 → 고유주소] 에서 저장을 눌러야
+   주소가 살아납니다. 그 단계를 잊기 쉬워서 코드로 한 번 처리합니다.
+   숫자를 올리면 다음 배포 때 다시 한 번 갱신됩니다.
+   ══════════════════════════════════════════════════════════ */
+add_action( 'init', 'caparol_maybe_flush_rules', 99 );
+
+function caparol_maybe_flush_rules() {
+
+	$version = '3';   // 구조를 바꿀 때마다 올립니다
+
+	if ( get_option( 'caparol_rules_version' ) === $version ) {
+		return;
+	}
+
+	flush_rewrite_rules( false );
+	update_option( 'caparol_rules_version', $version );
 }
