@@ -1456,11 +1456,19 @@ body.page-privacy .entry-header { display: none; }
 .pv-body ul, .pv-body ol { padding-left: 1.25rem; }
 .pv-body li { margin-bottom: .375rem; }
 .pv-body table {
-  width: 100%;
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  overflow-x: auto;
+  border: 0;
   border-collapse: collapse;
   margin: 1rem 0 1.5rem;
   font-size: .875rem;
+  background: none;
 }
+.pv-body thead,
+.pv-body tbody,
+.pv-body tr { border: 0; background: none; }
 .pv-body th, .pv-body td {
   padding: .625rem .75rem;
   border: 1px solid var(--caparol-line);
@@ -1468,7 +1476,6 @@ body.page-privacy .entry-header { display: none; }
   vertical-align: top;
 }
 .pv-body th { background: var(--caparol-bg-alt); font-weight: 700; white-space: nowrap; }
-.pv-body table { display: block; overflow-x: auto; }
 
 @media (max-width: 767px) {
   .pv__in { padding: 2.5rem 1.25rem 3.5rem; }
@@ -1910,15 +1917,24 @@ body.single-product #primary { margin: 0; padding: 0; }
 }
 .cp-prose ul, .cp-prose ol { padding-left: 1.25rem; }
 .cp-prose li { margin-bottom: .375rem; }
-/* 본문에 넣은 표 — 좁은 화면에서는 가로로 스크롤됩니다 */
+/* 본문에 넣은 표
+   width:max-content — 표가 내용만큼만 넓어집니다.
+   100%로 두면 테마(Astra)의 표 테두리가 오른쪽 끝까지 그어져 선이 뜹니다.
+   좁은 화면에서는 max-width:100% + overflow-x 로 가로 스크롤됩니다. */
 .cp-prose table {
   display: block;
+  width: max-content;
+  max-width: 100%;
   overflow-x: auto;
-  width: 100%;
+  border: 0;
   border-collapse: collapse;
   margin: 1rem 0 1.25rem;
   font-size: .875rem;
+  background: none;
 }
+.cp-prose thead,
+.cp-prose tbody,
+.cp-prose tr { border: 0; background: none; }
 .cp-prose th, .cp-prose td {
   padding: .625rem .875rem;
   border: 1px solid var(--caparol-line);
