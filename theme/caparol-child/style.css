@@ -4,7 +4,7 @@ Theme URI:    https://caparol.kr
 Description:  caparol.kr 자식 테마. 부모 테마(Astra) 업데이트에 영향받지 않도록 모든 커스터마이징은 여기에 작성합니다.
 Author:       Caparol Korea
 Template:     astra
-Version:      0.2.2
+Version:      0.2.3
 Text Domain:  caparol
 */
 
@@ -2071,6 +2071,52 @@ body.single-product #primary { margin: 0; padding: 0; }
 .cp-prose h3.wp-block-heading { /* .cp-prose h3 규칙을 그대로 씁니다 */ }
 .cp-prose td:first-child, .cp-prose th:first-child { text-align: left; }
 
+/* 구텐베르크 '이미지' 블록
+   표 블록과 마찬가지로 <figure> 로 한 겹 감쌉니다.
+   figure 의 브라우저 기본 좌우 여백(40px)을 그대로 두면
+   본문에서 이미지만 안쪽으로 밀려 들어가 보입니다. */
+.cp-prose figure.wp-block-image,
+.pv-body figure.wp-block-image {
+  margin: 1.75rem 0;
+  max-width: 100%;
+}
+.cp-prose figure.wp-block-image img,
+.pv-body figure.wp-block-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* 사진 설명(캡션) — 이미지·갤러리·표 블록에 공통으로 씁니다 */
+.cp-prose figcaption,
+.pv-body figcaption {
+  margin-top: .5rem;
+  font-size: .8125rem;
+  line-height: 1.6;
+  color: var(--caparol-gray);
+  text-align: center;
+}
+
+/* 구텐베르크 '갤러리' 블록 — 사진 2장 이상을 나란히 놓을 때 씁니다.
+   코어는 flex 로 그리기 때문에 장수가 홀수면 마지막 한 장만 넓어집니다.
+   폭이 같은 2단 격자로 바꿔 장수와 무관하게 고르게 보이도록 합니다. */
+.cp-prose .wp-block-gallery,
+.pv-body .wp-block-gallery {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem;
+  margin: 1.75rem 0;
+}
+/* 갤러리 안의 사진은 바깥 여백을 갤러리가 책임집니다 */
+.cp-prose .wp-block-gallery figure.wp-block-image,
+.pv-body .wp-block-gallery figure.wp-block-image { margin: 0; }
+/* 원본 비율이 제각각이어도 한 줄의 높이가 맞도록 잘라서 채웁니다 */
+.cp-prose .wp-block-gallery img,
+.pv-body .wp-block-gallery img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
 /* ── 사이드 패널 ───────────────────────────────────── */
 .cp-panel {
   padding: 1.5rem;
@@ -2161,4 +2207,7 @@ body.single-product #primary { margin: 0; padding: 0; }
   .cp-section { padding-top: 2.25rem; }
   .cp-cols { padding-bottom: 3rem; }
   .cp-cols__side { margin-top: 2.25rem; }
+  /* 좁은 화면에서 2단 격자는 사진이 너무 작아집니다 */
+  .cp-prose .wp-block-gallery,
+  .pv-body .wp-block-gallery { grid-template-columns: minmax(0, 1fr); }
 }
