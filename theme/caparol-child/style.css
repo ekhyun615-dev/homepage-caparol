@@ -4,7 +4,7 @@ Theme URI:    https://caparol.kr
 Description:  caparol.kr 자식 테마. 부모 테마(Astra) 업데이트에 영향받지 않도록 모든 커스터마이징은 여기에 작성합니다.
 Author:       Caparol Korea
 Template:     astra
-Version:      0.2.0
+Version:      0.2.2
 Text Domain:  caparol
 */
 
@@ -700,6 +700,10 @@ body.home .entry-header, body.home .ast-archive-description { display: none; }
   font-weight: 800;
   line-height: 1.18;
   letter-spacing: -0.035em;
+  /* 색을 반드시 직접 적어줍니다.
+     Astra 가 h1 에 자기 제목 색(짙은 남색)을 넣어두기 때문에,
+     부모의 color 를 물려받게 두면 사진 위에서도 남색으로 나옵니다. */
+  color: var(--caparol-ink);
 }
 .fp-hero__text {
   margin: 1.75rem 0 0;
@@ -727,13 +731,32 @@ body.home .entry-header, body.home .ast-archive-description { display: none; }
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(0,0,0,.72) 0%, rgba(0,0,0,.45) 60%, rgba(0,0,0,.25) 100%);
+  background: linear-gradient(90deg, rgba(0,0,0,.80) 0%, rgba(0,0,0,.66) 45%, rgba(0,0,0,.38) 75%, rgba(0,0,0,.22) 100%);
 }
 .fp-hero--photo .fp-hero__in { position: relative; }
-.fp-hero--photo .fp-hero__lead { color: var(--caparol-green); }
-.fp-hero--photo .fp-hero__text { color: #e5e7eb; }
-.fp-hero--photo .cp-btn--ghost { color: #fff; border-color: rgba(255,255,255,.55); }
-.fp-hero--photo .cp-btn--ghost:hover { border-color: #fff; background: rgba(255,255,255,.1); }
+/* 사진 위에서는 제목을 흰색으로 되돌립니다 (Astra 의 h1 색을 이깁니다) */
+.fp-hero--photo .fp-hero__title {
+  color: #fff;
+  text-shadow: 0 2px 14px rgba(0,0,0,.45);
+}
+.fp-hero--photo .fp-hero__lead {
+  color: #cfeb6e;                       /* 사진 위에서는 더 밝은 연두 — 작은 글씨라 대비 4.5:1 필요 */
+  text-shadow: 0 1px 8px rgba(0,0,0,.5);
+}
+.fp-hero--photo .fp-hero__text {
+  color: #eef0f2;
+  text-shadow: 0 1px 10px rgba(0,0,0,.45);
+}
+.fp-hero--photo .fp-hero__actions .cp-btn--ghost {
+  color: #fff;
+  border-color: rgba(255,255,255,.7);
+  background: rgba(255,255,255,.08);   /* 사진 위에서 테두리만으로는 잘 안 보입니다 */
+}
+.fp-hero--photo .fp-hero__actions .cp-btn--ghost:hover {
+  border-color: #fff;
+  background: rgba(255,255,255,.18);
+  color: #fff;
+}
 
 /* ── 2. 신뢰 지표 ──────────────────────────────────── */
 .fp-stats {
@@ -959,6 +982,12 @@ body.home .entry-header, body.home .ast-archive-description { display: none; }
     padding-right: 1.25rem;
   }
   .fp-hero { padding: 3.5rem 0 3rem; }
+  /* 모바일은 글씨가 화면 폭을 다 쓰기 때문에
+     좌→우 그라데이션으로는 오른쪽 글자가 밝은 곳에 걸립니다.
+     전체를 고르게 덮습니다. */
+  .fp-hero--photo::before {
+    background: linear-gradient(180deg, rgba(0,0,0,.60) 0%, rgba(0,0,0,.70) 100%);
+  }
   .fp-hero__text { font-size: 1.0625rem; margin-top: 1.25rem; }
   .fp-hero__actions { margin-top: 2rem; }
   .fp-hero__actions .cp-btn { flex: 1 1 9rem; }
@@ -2026,6 +2055,20 @@ body.single-product #primary { margin: 0; padding: 0; }
   white-space: nowrap;
 }
 .cp-prose th { background: var(--caparol-bg-alt); font-weight: 700; }
+
+/* 구텐베르크 '표' 블록은 <figure class="wp-block-table"> 로 한 겹 감쌉니다.
+   figure 의 기본 좌우 여백(브라우저마다 40px)이 붙으면 표가 밀려 보입니다. */
+.cp-prose figure.wp-block-table,
+.pv-body figure.wp-block-table {
+  margin: 1.75rem 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+.cp-prose figure.wp-block-table > table,
+.pv-body figure.wp-block-table > table { margin: 0; }
+/* 목록 블록도 마찬가지로 기본값을 우리 쪽에 맞춥니다 */
+.cp-prose ul.wp-block-list, .cp-prose ol.wp-block-list { padding-left: 1.25rem; }
+.cp-prose h3.wp-block-heading { /* .cp-prose h3 규칙을 그대로 씁니다 */ }
 .cp-prose td:first-child, .cp-prose th:first-child { text-align: left; }
 
 /* ── 사이드 패널 ───────────────────────────────────── */

@@ -127,3 +127,104 @@ function caparol_seed_product_features_eco() {
 
 	update_option( 'caparol_products_eco_tagged', 1 );
 }
+
+/* ══════════════════════════════════════════════════════════
+   특성 보강 2차 — 카탈로그 5종(CapaSilan · PremiumClean ·
+   Sylitol Bio-Innenfarbe · Histolith Innenkalk · Latex Gloss 60)
+   자료를 받고 근거가 확인된 것만 덧붙입니다.
+
+   기존 특성은 지우지 않고 더합니다(append). 붙인 게 마음에 안 들면
+   관리자 → 제품 편집 화면에서 체크만 해제하면 됩니다.
+   이 함수는 한 번만 돌기 때문에 해제한 게 다시 붙지 않습니다.
+
+   Histolith Innenkalk 는 일부러 뺐습니다.
+   카탈로그에 E.L.F. 라벨도, 저배출·무용제 표기도 없습니다.
+   석회 도료라 친환경으로 보이지만 근거가 적혀 있지 않습니다.
+   ══════════════════════════════════════════════════════════ */
+add_action( 'init', 'caparol_seed_product_features_v2', 24 );
+
+function caparol_seed_product_features_v2() {
+
+	if ( get_option( 'caparol_products_features_v2' ) ) {
+		return;
+	}
+
+	/* 슬러그 => 덧붙일 특성 슬러그들 */
+	$map = array(
+		// 저배출 · 무용제 · E.L.F.
+		'capasilan'              => array( 'eco' ),
+
+		// 친환경적이고 저취 · 물로 희석 가능 · E.L.F.
+		'premiumclean'           => array( 'eco' ),
+
+		// 보존제 무첨가 · 무용제 · 가소제 무첨가 · TUV Nord 알레르기 인증 · E.L.F. plus
+		'sylitol-bio-innenfarbe' => array( 'eco' ),
+
+		// 저배출 · 무용제 · 가소제 무첨가 · E.L.F.  +  습윤 마모 R-등급 1
+		'latex-gloss-60'         => array( 'eco', 'wear-class-1' ),
+	);
+
+	foreach ( $map as $slug => $features ) {
+
+		$post = get_page_by_path( $slug, OBJECT, 'product' );
+		if ( ! $post ) {
+			continue;
+		}
+
+		foreach ( $features as $feature ) {
+			if ( ! term_exists( $feature, 'product_feature' ) ) {
+				return;   // 특성이 아직 안 만들어졌으면 다음 요청에서 통째로 다시 시도
+			}
+			// append = true : 기존 특성을 지우지 않고 더합니다
+			wp_set_object_terms( $post->ID, array( $feature ), 'product_feature', true );
+		}
+	}
+
+	update_option( 'caparol_products_features_v2', 1 );
+}
+
+/* ══════════════════════════════════════════════════════════
+   특성 보강 3차 — 마지막 3종
+   (SeidenLatex · Indeko-W · Aqua-inn 1) 자료를 받고 추가합니다.
+
+   Indeko-W 는 일부러 뺐습니다.
+   E.L.F. 라벨과 AgBB 시험 근거는 있지만, 이 제품은 곰팡이·세균으로부터
+   도막을 보호하는 보존 성분(살생물 성분)을 함유합니다.
+   방부제 무첨가를 내세우는 Indeko-Plus · Sylitol 과 같은 '친환경' 으로
+   묶으면 친환경으로 걸러 찾아온 고객이 이 제품을 보게 됩니다.
+   ══════════════════════════════════════════════════════════ */
+add_action( 'init', 'caparol_seed_product_features_v3', 25 );
+
+function caparol_seed_product_features_v3() {
+
+	if ( get_option( 'caparol_products_features_v3' ) ) {
+		return;
+	}
+
+	/* 슬러그 => 덧붙일 특성 슬러그들 */
+	$map = array(
+		// 저배출 · 무용제 · 가소제 무첨가 · E.L.F.  +  습윤 마모 1 등급
+		'seidenlatex'  => array( 'eco', 'wear-class-1' ),
+
+		// E.L.F. 라벨  +  습윤 마모 R 등급 1
+		'aqua-inn-no1' => array( 'eco', 'wear-class-1' ),
+	);
+
+	foreach ( $map as $slug => $features ) {
+
+		$post = get_page_by_path( $slug, OBJECT, 'product' );
+		if ( ! $post ) {
+			continue;
+		}
+
+		foreach ( $features as $feature ) {
+			if ( ! term_exists( $feature, 'product_feature' ) ) {
+				return;   // 특성이 아직 안 만들어졌으면 다음 요청에서 통째로 다시 시도
+			}
+			// append = true : 기존 특성을 지우지 않고 더합니다
+			wp_set_object_terms( $post->ID, array( $feature ), 'product_feature', true );
+		}
+	}
+
+	update_option( 'caparol_products_features_v3', 1 );
+}
