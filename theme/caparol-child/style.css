@@ -4,7 +4,7 @@ Theme URI:    https://caparol.kr
 Description:  caparol.kr 자식 테마. 부모 테마(Astra) 업데이트에 영향받지 않도록 모든 커스터마이징은 여기에 작성합니다.
 Author:       Caparol Korea
 Template:     astra
-Version:      0.2.4
+Version:      0.2.5
 Text Domain:  caparol
 */
 
@@ -2099,54 +2099,64 @@ body.single-product #primary { margin: 0; padding: 0; }
 
 /* 구텐베르크 '갤러리' 블록 — 사진 2장 이상을 나란히 놓을 때 씁니다.
 
-   코어(wp-block-library)가 .wp-block-gallery.has-nested-images 에
-   세 가지를 걸어둡니다. 셋 다 이 사이트에서는 원치 않는 모양입니다.
-     · display:flex      → 장수가 홀수면 마지막 한 장만 넓어집니다
-     · img { width:auto } → 사진이 칸을 못 채우고 작게 남습니다
-     · figcaption 을 position:absolute + 검은 그라데이션으로
-       사진 위에 겹칩니다
+   코어(wp-block-library)와 워드프레스 레이아웃 엔진이 갤러리에
+   여러 겹으로 규칙을 겁니다. is-layout-flex · is-cropped 처럼
+   상황에 따라 붙는 클래스가 많아, 선택자 깊이만으로 이기려다
+   0.2.3 · 0.2.4 에서 두 번 실패했습니다.
 
-   되돌리려면 선택자 깊이를 코어와 같게 맞춰야 합니다.
-   .cp-prose .wp-block-gallery 처럼 얕게 쓰면 코어가 이깁니다. */
+   Astra 를 이길 때와 같은 방식으로 갑니다 — 꼭 필요한 속성에만
+   !important 를 씁니다. 코어는 우리가 고칠 수 없는 남의 코드입니다. */
 .cp-prose .wp-block-gallery,
-.cp-prose .wp-block-gallery.has-nested-images,
-.pv-body .wp-block-gallery,
-.pv-body .wp-block-gallery.has-nested-images {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: .75rem;
+.pv-body .wp-block-gallery {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: .75rem !important;
   margin: 1.75rem 0;
 }
-/* 갤러리 안의 사진 — 바깥 여백은 갤러리가 책임집니다 */
-.cp-prose .wp-block-gallery.has-nested-images figure.wp-block-image,
-.pv-body .wp-block-gallery.has-nested-images figure.wp-block-image {
-  display: block;          /* 코어의 flex 해제 */
-  margin: 0;
-  width: 100%;
-  max-width: 100%;
+
+/* 갤러리 한 칸 — 코어의 flex 와 높이 제한을 풀고 흐름에 되돌립니다.
+   position:relative 를 static 으로 바꿔야 캡션이 겹치지 않습니다. */
+.cp-prose .wp-block-gallery figure.wp-block-image,
+.pv-body .wp-block-gallery figure.wp-block-image {
+  display: block !important;
+  position: static !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+  flex: none !important;
 }
-/* 코어의 width:auto 를 덮습니다. 이게 없으면 사진이 작게 남습니다.
+
+/* 사진 — 코어의 width:auto 때문에 칸을 못 채우고 작게 남았습니다.
    원본 비율이 제각각이어도 한 줄의 높이가 맞도록 잘라서 채웁니다. */
-.cp-prose .wp-block-gallery.has-nested-images figure.wp-block-image img,
-.pv-body .wp-block-gallery.has-nested-images figure.wp-block-image img {
-  width: 100%;
-  height: auto;
+.cp-prose .wp-block-gallery figure.wp-block-image img,
+.pv-body .wp-block-gallery figure.wp-block-image img {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  height: auto !important;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+  border-radius: var(--caparol-radius);
 }
-/* 캡션을 사진 위에서 아래로 내립니다 */
-.cp-prose .wp-block-gallery.has-nested-images figure.wp-block-image figcaption,
-.pv-body .wp-block-gallery.has-nested-images figure.wp-block-image figcaption {
-  position: static;
-  margin-top: .5rem;
-  padding: 0;
-  background: none;
-  color: var(--caparol-gray);
+
+/* 캡션 — 코어는 사진 위에 겹쳐 얹습니다(position:absolute).
+   흐름 안으로 되돌려야 아래 제목과 겹치지 않습니다. */
+.cp-prose .wp-block-gallery figure.wp-block-image figcaption,
+.pv-body .wp-block-gallery figure.wp-block-image figcaption {
+  position: static !important;
+  inset: auto !important;
+  margin: .5rem 0 0 !important;
+  padding: 0 !important;
+  background: none !important;
+  color: var(--caparol-gray) !important;
   font-size: .8125rem;
   line-height: 1.6;
   text-align: center;
-  max-height: none;
-  overflow: visible;
+  max-height: none !important;
+  height: auto !important;
+  overflow: visible !important;
+  text-shadow: none !important;
 }
 
 /* ── 사이드 패널 ───────────────────────────────────── */
