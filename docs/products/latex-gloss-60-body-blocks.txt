@@ -1,0 +1,53 @@
+<!-- ══════════════════════════════════════════════════════════
+     latex-gloss-60 — 본문
+     이 파일은 통째로 복사해서 [코드 편집기] 에 붙여넣습니다.
+     이 주석 줄도 같이 복사하셔도 됩니다. 화면에는 안 보입니다.
+     ══════════════════════════════════════════════════════════ -->
+
+<!-- wp:paragraph -->
+<p>Latex Gloss 60 은 광택 있는 고내구성 실내용 페인트로, 접촉이 잦거나 오염에 자주 노출되는 벽 및 천장면에 적합합니다.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>특히 <strong>Capaver 유리섬유 직물 벽지</strong>의 마감 도료로 매우 적합하며, Latex Gloss 60 으로 도장하면 유리섬유 벽지의 섬유 질감과 입체적인 텍스처를 더욱 선명하게 표현할 수 있습니다.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>우수한 세척성과 함께 수성 소독제 및 가정용 세정제에 대한 뛰어난 내성을 갖추고 있으며, 광택 유지성이 우수하고 황변이 발생하지 않습니다.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">색상 · 조색</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>기본 색상은 백색과 올드 화이트 10 (RAL 9010에 해당) 입니다. 동일 색상으로 <strong>100 L 이상 주문하는 경우</strong>에는 요청 시 공장 조색으로 공급할 수 있습니다.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:paragraph -->
+<p>적색, 주황색, 황색과 같이 <strong>은폐력이 낮은 색상</strong>을 사용할 경우에는, 해당 색상에 적합한 프라이머 시스템 색상으로 조색한 <strong>Haftgrund</strong> 를 먼저 도장하는 것을 권장합니다. 해당 프라이머 시스템 색상은 ColorExpress 조색 시스템을 통해 공급할 수 있습니다.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">적용 분야 적합성</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>기술정보 Nr. 606 “적용 분야 정의” 기준입니다.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:table -->
+<figure class="wp-block-table"><table><thead><tr><th>구분</th><th>실내 1</th><th>실내 2</th><th>실내 3</th><th>외부 1</th><th>외부 2</th></tr></thead><tbody><tr><td>적합성</td><td>＋</td><td>＋</td><td>○</td><td>－</td><td>－</td></tr></tbody></table></figure>
+<!-- /wp:table -->
+
+<!-- wp:paragraph -->
+<p>＋ 적합 &nbsp;/&nbsp; ○ 조건부 적합 &nbsp;/&nbsp; － 부적합</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:heading {"level":3} -->
+<h3 class="wp-block-heading">시공 시 참고</h3>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph -->
+<p>표기된 소요량은 평활한 바탕면 기준입니다. 거친 바탕면에서는 사용량이 그에 따라 증가하므로, 정확한 사용량은 <strong>시험 도장</strong>을 통해 확인하십시오. 조색 색상에 따라 기술 특성값에 차이가 발생할 수 있습니다.</p>
+<!-- /wp:paragraph -->
