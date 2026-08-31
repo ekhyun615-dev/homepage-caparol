@@ -226,6 +226,13 @@ function caparol_seed_terms_v2() {
 		'라텍스'            => 'latex',
 		'곰팡이 방지'       => 'anti-mould',
 		'차단'              => 'isolating',
+
+		/* 외장용 — 슬라이드의 제품 묶음을 그대로 옮겼습니다.
+		   실내용 특성(습윤마모·곰팡이 방지)은 외벽에서 의미가 없어
+		   따로 둡니다. 필터에서는 이어서 나옵니다. */
+		'NQG 자기세정'      => 'self-cleaning',
+		'실리콘 수지'       => 'silicone-resin',
+		'균열 가교 · 탄성'  => 'crack-bridging',
 	);
 
 	foreach ( $features as $name => $slug ) {
