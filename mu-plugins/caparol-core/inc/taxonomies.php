@@ -171,12 +171,20 @@ function caparol_seed_terms() {
 
    1차 시드(caparol_terms_seeded)는 이미 실행됐으므로
    새로 추가되는 항목은 별도 옵션 키로 한 번만 더 실행합니다.
+
+   ⚠️ 항목을 새로 추가할 때는 아래 옵션 키의 숫자를 반드시 올리세요.
+      올리지 않으면 이미 실행된 사이트에서는 그냥 빠져나가
+      새 항목이 만들어지지 않습니다.
+      v3 → v4 : 외장용 특성 3종(NQG 자기세정 · 실리콘 수지 ·
+                균열 가교·탄성) 추가 때문에 올렸습니다.
+      만드는 부분이 전부 term_exists 로 감싸져 있어
+      다시 돌아도 기존 항목이 중복되거나 덮어써지지 않습니다.
    ══════════════════════════════════════════════════════════ */
 add_action( 'init', 'caparol_seed_terms_v2', 21 );
 
 function caparol_seed_terms_v2() {
 
-	if ( get_option( 'caparol_terms_seeded_v3' ) ) {
+	if ( get_option( 'caparol_terms_seeded_v4' ) ) {
 		return;
 	}
 
@@ -241,7 +249,7 @@ function caparol_seed_terms_v2() {
 		}
 	}
 
-	update_option( 'caparol_terms_seeded_v3', 1 );
+	update_option( 'caparol_terms_seeded_v4', 1 );
 }
 
 /* ══════════════════════════════════════════════════════════
