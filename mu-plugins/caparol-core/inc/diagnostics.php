@@ -197,6 +197,11 @@ function caparol_front_debug() {
 		   서버의 functions.php 가 저장소보다 오래된 것입니다. */
 		'posts_per_page' => $wp_query->get( 'posts_per_page' ),
 		'max_num_pages'  => $wp_query->max_num_pages,
+		/* posts_per_page 가 계속 밀려서 LIMIT 을 SQL 단계에서 못 박았습니다.
+		   실제로 몇 개를 가져왔는지는 아래 post_count 와 SQL 의 LIMIT 을 보세요. */
+		'실제 LIMIT'      => preg_match( '/LIMIT\s+([0-9]+),\s*([0-9]+)/i', (string) $wp_query->request, $m )
+			? $m[1] . ' 부터 ' . $m[2] . ' 개'
+			: '(LIMIT 없음)',
 		'실행된 SQL'      => $wp_query->request,
 	);
 

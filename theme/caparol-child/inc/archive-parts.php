@@ -263,6 +263,17 @@ function caparol_archive_empty( $message = '등록된 제품이 없습니다.' )
  * 페이지 넘김
  */
 function caparol_archive_pagination() {
+
+	/* 이번 화면에 전부 나왔으면 페이지 넘김을 그리지 않습니다.
+	   LIMIT 은 SQL 에서 24 로 못 박았지만 max_num_pages 는
+	   posts_per_page 로 계산돼서 실제와 어긋날 수 있습니다. */
+	global $wp_query;
+	if ( $wp_query instanceof WP_Query
+		&& ! $wp_query->is_paged()
+		&& $wp_query->post_count >= (int) $wp_query->found_posts ) {
+		return;
+	}
+
 	$links = paginate_links( array(
 		'prev_text' => '이전',
 		'next_text' => '다음',

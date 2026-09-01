@@ -280,7 +280,7 @@ add_action( 'wp_dashboard_setup', function () {
    화면 값과 저장소 값이 다르면 업로드가 안 된 것입니다.
    내용을 고칠 때마다 날짜를 올려 주세요. */
 if ( ! defined( 'CAPAROL_CHILD_FN' ) ) {
-	define( 'CAPAROL_CHILD_FN', '2026-09-01-a' );
+	define( 'CAPAROL_CHILD_FN', '2026-09-01-b' );
 }
 
 /* 검색 결과에서 색상·기술자료는 제외 (제품·시공사례만 노출)
@@ -315,6 +315,9 @@ add_action( 'pre_get_posts', function ( $query ) {
 	if ( $query->is_post_type_archive( 'product' ) || $query->is_tax( 'product_cat' ) ) {
 
 		$query->set( 'posts_per_page', 24 );
+		/* 워드프레스는 아카이브에서 posts_per_archive_page 가 있으면
+		   그 값으로 posts_per_page 를 덮어씁니다. 둘 다 지정합니다. */
+		$query->set( 'posts_per_archive_page', 24 );
 		$query->set( 'orderby', array( 'menu_order' => 'ASC', 'title' => 'ASC' ) );
 
 		// 특성 필터 — 카테고리 안에 머문 채로 걸러냅니다
@@ -450,3 +453,33 @@ foreach ( array( 'product', 'reference', 'color', 'document' ) as $caparol_pt ) 
 		echo '<code>' . esc_html( $slug ) . '</code>';
 	}, 10, 2 );
 }
+
+/* ──────────────────────────────────────────────
+   제품 목록 LIMIT 을 SQL 단계에서 직접 지정
+
+   pre_get_posts 에서 posts_per_page 를 24 로 정해도 계속 10 으로
+   밀렸습니다. 우선순위를 PHP_INT_MAX 까지 올려도 마찬가지였습니다.
+   무엇이 되돌리는지는 못 찾았지만, post_limits 는 SQL 을 만들 때
+   딱 한 번 불리므로 우선순위 싸움이 되지 않습니다.
+
+   페이지 넘김도 함께 없어지도록 archive-parts.php 의
+   caparol_archive_pagination() 에서 "다 나왔으면 그리지 않기" 를
+   같이 넣었습니다.
+   ────────────────────────────────────────────── */
+add_filter( 'post_limits', function ( $limits, $query ) {
+
+	if ( is_admin() || ! $query instanceof WP_Query || ! $query->is_main_query() ) {
+		return $limits;
+	}
+
+	if ( ! ( $query->is_post_type_archive( 'product' ) || $query->is_tax( 'product_cat' ) ) ) {
+		return $limits;
+	}
+
+	$per    = 24;
+	$paged  = max( 1, (int) $query->get( 'paged' ) );
+	$offset = ( $paged - 1 ) * $per;
+
+	return 'LIMIT ' . $offset . ', ' . $per;
+
+}, PHP_INT_MAX, 2 );
