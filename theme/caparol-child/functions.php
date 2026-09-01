@@ -275,7 +275,10 @@ add_action( 'wp_dashboard_setup', function () {
 	remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
 } );
 
-/* 검색 결과에서 색상·기술자료는 제외 (제품·시공사례만 노출) */
+/* 검색 결과에서 색상·기술자료는 제외 (제품·시공사례만 노출)
+
+   우선순위 999 — 다른 플러그인이나 부모 테마가 기본값(10)으로
+   되돌리는 경우가 있어 가장 마지막에 돌게 합니다. */
 add_action( 'pre_get_posts', function ( $query ) {
 
 	if ( is_admin() || ! $query->is_main_query() ) {
@@ -331,7 +334,7 @@ add_action( 'pre_get_posts', function ( $query ) {
 		$query->set( 'posts_per_page', 30 );
 		$query->set( 'orderby', array( 'menu_order' => 'ASC', 'title' => 'ASC' ) );
 	}
-} );
+}, 999 );
 
 /* ──────────────────────────────────────────────
    기술자료 목록에 유효기간 표시

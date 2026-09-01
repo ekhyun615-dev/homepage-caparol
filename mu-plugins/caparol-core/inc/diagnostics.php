@@ -188,6 +188,11 @@ function caparol_front_debug() {
 		'queried_object' => $name,
 		'found_posts'    => $wp_query->found_posts,
 		'post_count'     => $wp_query->post_count,
+		/* 목록이 몇 페이지로 갈리는지 — "한 페이지에 다 안 나와요" 의 원인 확인용.
+		   제품 목록에서 posts_per_page 가 24 가 아니면
+		   서버의 functions.php 가 저장소보다 오래된 것입니다. */
+		'posts_per_page' => $wp_query->get( 'posts_per_page' ),
+		'max_num_pages'  => $wp_query->max_num_pages,
 		'실행된 SQL'      => $wp_query->request,
 	);
 
