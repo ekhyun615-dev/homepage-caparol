@@ -4,7 +4,7 @@ Theme URI:    https://caparol.kr
 Description:  caparol.kr 자식 테마. 부모 테마(Astra) 업데이트에 영향받지 않도록 모든 커스터마이징은 여기에 작성합니다.
 Author:       Caparol Korea
 Template:     astra
-Version:      0.2.5
+Version:      0.2.6
 Text Domain:  caparol
 */
 
@@ -321,6 +321,25 @@ body.tax-product_cat { background: var(--caparol-bg); }
 }
 .cl-card__img--empty { background: var(--caparol-bg-alt); }
 .cl-card__link:hover .cl-card__img { transform: scale(1.04); }
+
+/* 제품 목록의 카드 사진만 작게
+
+   제품 컷은 배경이 트인 누끼라 사진처럼 꽉 채우면 통이 너무 크게 보입니다.
+   틀을 조금 낮추고(4:3 → 3:2) 안쪽 여백을 줘서 제품이 작게 앉도록 합니다.
+   object-fit 도 cover → contain 이라 통 위아래가 잘리지 않습니다.
+
+   시공사례 카드는 같은 클래스를 쓰지만 실제 사진이므로
+   지금처럼 꽉 채워야 합니다. 그래서 제품 목록 화면에서만 적용합니다. */
+body.post-type-archive-product .cl-card__media,
+body.tax-product_cat .cl-card__media {
+  aspect-ratio: 3 / 2;
+}
+body.post-type-archive-product .cl-card__img,
+body.tax-product_cat .cl-card__img {
+  box-sizing: border-box;
+  object-fit: contain;
+  padding: 1.5rem;
+}
 
 .cl-card__body { padding-top: 1.125rem; }
 

@@ -294,10 +294,15 @@ add_action( 'pre_get_posts', function ( $query ) {
 		return;
 	}
 
-	// 제품 목록 — 3열 그리드에 맞춰 12개씩, 등록 순서(메뉴 순서)대로
+	/* 제품 목록 — 한 카테고리가 한 페이지에 다 들어가게 합니다.
+
+	   카탈로그는 훑어보는 화면이라 11개짜리 목록이 2페이지로 갈리면
+	   불편하기만 합니다. 3열 그리드 기준 8줄까지 한 번에 보여줍니다.
+	   지금 가장 큰 카테고리가 외장 페인트 11개라 여유가 있습니다.
+	   한 카테고리가 24개를 넘어가면 이 숫자를 올리세요. */
 	if ( $query->is_post_type_archive( 'product' ) || $query->is_tax( 'product_cat' ) ) {
 
-		$query->set( 'posts_per_page', 12 );
+		$query->set( 'posts_per_page', 24 );
 		$query->set( 'orderby', array( 'menu_order' => 'ASC', 'title' => 'ASC' ) );
 
 		// 특성 필터 — 카테고리 안에 머문 채로 걸러냅니다
