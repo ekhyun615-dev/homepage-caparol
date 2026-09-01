@@ -178,6 +178,10 @@ function caparol_front_debug() {
 	}
 
 	$lines = array(
+		/* 자식 테마 functions.php 가 서버에 올라갔는지 — 업로드 확인용 */
+		'functions.php'  => defined( 'CAPAROL_CHILD_FN' )
+			? CAPAROL_CHILD_FN
+			: '(버전 표시 없음 — 예전 파일입니다)',
 		'요청 주소'       => isset( $wp->request ) ? $wp->request : '(없음)',
 		'걸린 주소 규칙'   => isset( $wp->matched_rule ) ? $wp->matched_rule : '(없음 — 규칙에 안 걸림)',
 		'해석된 질의'     => isset( $wp->matched_query ) ? $wp->matched_query : '(없음)',

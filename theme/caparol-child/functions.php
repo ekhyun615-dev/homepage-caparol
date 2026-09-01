@@ -275,10 +275,19 @@ add_action( 'wp_dashboard_setup', function () {
 	remove_meta_box( 'dashboard_quick_press', 'dashboard', 'side' );
 } );
 
+/* 이 파일이 서버에 제대로 올라갔는지 확인용.
+   ?cp_debug=1 진단 화면에 이 값이 그대로 찍힙니다.
+   화면 값과 저장소 값이 다르면 업로드가 안 된 것입니다.
+   내용을 고칠 때마다 날짜를 올려 주세요. */
+if ( ! defined( 'CAPAROL_CHILD_FN' ) ) {
+	define( 'CAPAROL_CHILD_FN', '2026-09-01-a' );
+}
+
 /* 검색 결과에서 색상·기술자료는 제외 (제품·시공사례만 노출)
 
-   우선순위 999 — 다른 플러그인이나 부모 테마가 기본값(10)으로
-   되돌리는 경우가 있어 가장 마지막에 돌게 합니다. */
+   우선순위 PHP_INT_MAX — 뒤에서 posts_per_page 를 기본값(10)으로
+   되돌리는 것이 있어, pre_get_posts 중 가장 마지막에 돌게 합니다.
+   999 로도 안 잡혀서 최대값으로 올렸습니다. */
 add_action( 'pre_get_posts', function ( $query ) {
 
 	if ( is_admin() || ! $query->is_main_query() ) {
@@ -334,7 +343,7 @@ add_action( 'pre_get_posts', function ( $query ) {
 		$query->set( 'posts_per_page', 30 );
 		$query->set( 'orderby', array( 'menu_order' => 'ASC', 'title' => 'ASC' ) );
 	}
-}, 999 );
+}, PHP_INT_MAX );
 
 /* ──────────────────────────────────────────────
    기술자료 목록에 유효기간 표시
