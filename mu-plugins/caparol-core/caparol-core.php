@@ -30,6 +30,7 @@ require_once CAPAROL_CORE_DIR . '/inc/post-types.php';
 require_once CAPAROL_CORE_DIR . '/inc/taxonomies.php';
 require_once CAPAROL_CORE_DIR . '/inc/seed-products.php';
 require_once CAPAROL_CORE_DIR . '/inc/seed-products-exterior.php';
+require_once CAPAROL_CORE_DIR . '/inc/seed-products-plaster.php';
 require_once CAPAROL_CORE_DIR . '/inc/diagnostics.php';
 require_once CAPAROL_CORE_DIR . '/inc/security.php';
 

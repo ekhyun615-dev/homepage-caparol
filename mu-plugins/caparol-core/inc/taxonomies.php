@@ -177,6 +177,7 @@ function caparol_seed_terms() {
       새 항목이 만들어지지 않습니다.
       v3 → v4 : 외장용 특성 3종(NQG 자기세정 · 실리콘 수지 ·
                 균열 가교·탄성) 추가 때문에 올렸습니다.
+      v4 → v5 : 외장 플라스터 분산수지 특성 추가 때문에 올렸습니다.
       만드는 부분이 전부 term_exists 로 감싸져 있어
       다시 돌아도 기존 항목이 중복되거나 덮어써지지 않습니다.
    ══════════════════════════════════════════════════════════ */
@@ -184,7 +185,7 @@ add_action( 'init', 'caparol_seed_terms_v2', 21 );
 
 function caparol_seed_terms_v2() {
 
-	if ( get_option( 'caparol_terms_seeded_v4' ) ) {
+	if ( get_option( 'caparol_terms_seeded_v5' ) ) {
 		return;
 	}
 
@@ -241,6 +242,9 @@ function caparol_seed_terms_v2() {
 		'NQG 자기세정'      => 'self-cleaning',
 		'실리콘 수지'       => 'silicone-resin',
 		'균열 가교 · 탄성'  => 'crack-bridging',
+
+		/* 외장 플라스터 — 분산수지계 묶음용 */
+		'분산수지'          => 'dispersion',
 	);
 
 	foreach ( $features as $name => $slug ) {
@@ -249,7 +253,7 @@ function caparol_seed_terms_v2() {
 		}
 	}
 
-	update_option( 'caparol_terms_seeded_v4', 1 );
+	update_option( 'caparol_terms_seeded_v5', 1 );
 }
 
 /* ══════════════════════════════════════════════════════════
